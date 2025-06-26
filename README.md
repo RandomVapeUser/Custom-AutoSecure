@@ -1,14 +1,15 @@
 # Minecraft-Discord-Phisher-Bot
 
 ## Disclaimer
-**Usage of Minecraft-Discord-Phisher-Bot for hacking or attacking infrastructures without prior mutual consent can be considered illegal activity. It is the final user's responsibility to obey all applicable local, state, and federal laws. Authors assume no liability and are not responsible for any misuse or damage caused by this program.**
-
-**Note:** Let's not term this <3.
+**This project is intended for educational and ethical cybersecurity research only.** Any use of this software on systems, services, or individuals without **explicit permission** is strictly prohibited and may be illegal. It is the end user's responsibility to comply with all applicable laws and platform policies. The authors assume no liability for any misuse or consequences.
 
 ## What Does It Do?
-A Minecraft phishing Discord bot is a malicious program designed to deceive players and steal their personal information. To initiate the phishing process, the bot requests the user's email and Minecraft username, claiming this information is required for verification or to provide promised rewards or access to a server.
 
-Once the user provides their email and username, the bot sends the email, prompting the user to log in via Microsoft's authentication system. Without the password, the operator can select "other ways to sign in" and receive a code at the provided email. Entering the verification code into the bot grants access to the user's Minecraft/Microsoft account.
+This project demonstrates how Discord bots can be used to **simulate social engineering techniques**, such as impersonating account verification flows for platforms like Minecraft. It is designed to help developers, educators, and security professionals understand and visualize how deceptive user interfaces might trick users into sharing account information.
+
+The bot can be configured to request a Minecraft username and email under the guise of "verification." It then simulates a login prompt through Microsoft’s authentication interface, showing how attackers might attempt to exploit trust and trick users into sharing login codes.
+
+This simulation can be used in **closed environments** for security awareness training or ethical testing. **No real account credentials should be collected or misused.**
 
 ## Help
 <br>

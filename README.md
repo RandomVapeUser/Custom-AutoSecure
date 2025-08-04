@@ -11,13 +11,7 @@ The bot can be configured to request a Minecraft username and email under the gu
 
 This simulation can be used in **closed environments** for security awareness training or ethical testing. **No real account credentials should be collected or misused.**
 
-## Help
-<br>
-If you need futher help there is a link to a discord server below.<br>
-<br>
-[Help Server Link](https://discord.com/invite/SwjR85RGUA)<br>
 
-<br>
 
 ## How to Run
 

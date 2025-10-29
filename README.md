@@ -1,4 +1,4 @@
-# Minecraft-OTP-Discord-Verification-Sim
+# AutoSecure
 
 ## Disclaimer
 **This project is intended for educational and ethical cybersecurity research only.** Any use of this software on systems, services, or individuals without **explicit permission** is strictly prohibited and may be illegal. It is the end user's responsibility to comply with all applicable laws and platform policies. The authors assume no liability for any misuse or consequences.

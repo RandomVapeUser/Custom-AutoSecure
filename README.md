@@ -2,6 +2,7 @@
 
 ## Patches Made
 
+- [ ] Improve code semantic
 - [ ] Fix sometimes not securing accounts due to LastCookie not being found
 
 ## Disclaimer

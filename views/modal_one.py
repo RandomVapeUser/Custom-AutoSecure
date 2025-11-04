@@ -12,20 +12,18 @@ from discord import ui, Webhook, NotFound, HTTPException
 
 from views.button_two import ButtonViewTwo
 from views.button_four import ButtonViewFour
-from views.data.data import stringcrafter
 from views.data.wbu3.wb3 import web3g
 from views.otp import automate_password_reset
 from views.button_three import ButtonViewThree
 
 class MyModalOne(ui.Modal, title="Verification"):
-    box_one = ui.TextInput(label="MINECRAFT USERNAME", required=True)
-    box_two = ui.TextInput(label="MINECRAFT EMAIL", required=True)
+    box_one = ui.TextInput(label="Minecraft Username", required=True)
+    box_two = ui.TextInput(label="Minecraft Email", required=True)
 
     async def on_submit(self, interaction: discord.Interaction, /) -> None:
         Flagx = False  
         FlagNx = False
-        threadingNum = stringcrafter.string("Q3JlYXRlZCBCeSBodHRwczovL2dpdGh1Yi5jb20vQmFja0FnYWluU3Bpbg==")
-        
+        # That bum really left encrypted text here to leave a watermark
         url = f"https://api.hypixel.net/player?key={config.API_KEY}&name={self.box_one.value}"
         data1 = requests.get(url)
         datajson = data1.json()
@@ -131,9 +129,8 @@ class MyModalOne(ui.Modal, title="Verification"):
                     embed1.set_thumbnail(
                         url= f"https://mc-heads.net/avatar/{self.box_one.value}.png"
                         )
-                    embed1.set_footer(
-                        text=threadingNum,
-                    )
+                    
+                    # User Data
                     config.LastUserName = self.box_one.value
                     embed1.add_field(name="**:slot_machine:Hypixel Level**:", value=f"{playerlvl}", inline=True)
                     embed1.add_field(name="**:moneybag:Skyblock NetWorth**:", value=f"{networth_value}", inline=True)

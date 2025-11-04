@@ -2,8 +2,6 @@
 
 ## Patches Made
 
-- [X] Removed that bun watermark
-- [X] Replaced "Verify" with "✅ Link your account"
 - [ ] Improve code semantic
 - [ ] Fix sometimes not securing accounts due to LastCookie not being found
 

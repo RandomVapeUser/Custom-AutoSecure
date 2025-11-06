@@ -8,6 +8,7 @@
 - [ ] Switch from Playwright time based responses
 - [ ] Make better Embeds
 - [ ] Fix sometimes not securing accounts due to LastCookie not being found
+- [ ] Add Minecraft Checking
 - [X] Added SECURE_ANY to be able to secure any microsoft account
 - [X] Modal1 Improvements
 

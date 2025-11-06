@@ -2,8 +2,10 @@
 
 ## Patches Made
 
-- [ ] Improve code semantic
+- [ ] Make better Embeds
 - [ ] Fix sometimes not securing accounts due to LastCookie not being found
+- [X] Added SECURE_ANY to be able to secure any microsoft account
+- [X] Modal1 Improvements
 
 ## Disclaimer
 **This project is intended for educational and ethical cybersecurity research only.** Any use of this software on systems, services, or individuals without **explicit permission** is strictly prohibited and may be illegal. It is the end user's responsibility to comply with all applicable laws and platform policies. The authors assume no liability for any misuse or consequences.

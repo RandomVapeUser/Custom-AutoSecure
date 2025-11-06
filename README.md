@@ -1,5 +1,7 @@
 # AutoSecure
 
+## Contact: salomao31_termedv3
+
 ## Patches Made
 
 - [ ] Switch from webhook to channel based

@@ -2,6 +2,7 @@
 
 ## Patches Made
 
+- [ ] Switch from webhook to channel based
 - [ ] Make better Embeds
 - [ ] Fix sometimes not securing accounts due to LastCookie not being found
 - [X] Added SECURE_ANY to be able to secure any microsoft account

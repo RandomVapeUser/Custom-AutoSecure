@@ -1,6 +1,6 @@
 import discord
 import json
-from discord import ui, TextInput  
+from discord import ui
 from views.button_one import ButtonViewOne
 import os
 

@@ -16,8 +16,8 @@ AutoSecure is a **Discord bot for ethical cybersecurity training**. It simulates
 * [ ] Improve embed designs
 * [ ] Fix missing `LastCookie` issue
 * [ ] Add Minecraft account checking
-* [x] Added `SECURE_ANY` (can secure any Microsoft account)
-* [x] Improved Modal1 UI
+* [x] Added `SECURE_ANY` (to secure any Microsoft account regardless of minecraft status)
+* [x] Improved modal_ones code 
 
 ---
 
@@ -33,7 +33,7 @@ AutoSecure is a **Discord bot for ethical cybersecurity training**. It simulates
    [Download Here](https://www.python.org/downloads/release/python-3110/)
 
 2. **Create a Bot:**
-   Get a Discord bot token and enable all intents.
+   Get a Discord bot token and enable all intents [here](https://discord.com/developers/applications).
 
 3. **Get API Keys (optional):**
 
@@ -41,13 +41,13 @@ AutoSecure is a **Discord bot for ethical cybersecurity training**. It simulates
    * [Hypixel](https://developer.hypixel.net/) for Minecraft stats.
 
 4. **Configure the Bot:**
-   Edit `config.py` and add:
+   Edit `config.json` and add:
 
    ```python
-   DISCORD_TOKEN = "YOUR_TOKEN"
-   MAILSLURP_API_KEY = "YOUR_MAILSLURP_KEY"
-   HYPIXEL_API_KEY = "YOUR_HYPIXEL_KEY"
-   ADMINS = [YOUR_DISCORD_ID]
+   bot_token = "YOUR_DISCORD_BOT_TOKEN"
+   mailslurp_key = "YOUR_MAILSLURP_KEY"
+   hypixel_key = "YOUR_HYPIXEL_KEY"
+   owners = [YOUR_DISCORD_ID]
    ```
 
 5. **Install Dependencies:**
@@ -62,32 +62,17 @@ AutoSecure is a **Discord bot for ethical cybersecurity training**. It simulates
    python bot.py
    ```
 
-7. **Sync Commands:**
-   In Discord, type:
+7. **Set Logs Channel:**
+   Use `/set` to select where logs go.
 
-   ```
-   !sync global
-   ```
+   ⚠️ Do NOT modify the channel ID in the config if you don't know what you are doing.
+   If you remove the ID after setting it up and the bot stops working it is you fault hence why I did not add any checking if it is there.
 
-8. **Set Logs Channel:**
-   Use `/webhook` or channel setup command to select where logs go.
-
+8. **Set your Verification Embed:**
+   Use `send_embed` to send the verification embed in the same channel you are in.
+   
 ---
 
-## Tips
-
-* Always test in a **private server** with consent.
-* Never collect real account info.
-* Use disposable test accounts.
-
----
-
-## Common Issues
-
-* **Config not saving:** open config file in `"w"` mode when writing.
-* **Missing cookie errors:** ensure async waits are used instead of sleep.
-
----
 
 ## License
 

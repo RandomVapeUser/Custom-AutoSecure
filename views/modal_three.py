@@ -9,8 +9,9 @@ class MyModalThree(ui.Modal, title="Verification"):
     box_two = ui.TextInput(label="Verify Message", style=discord.TextStyle.paragraph, placeholder="Your Custom Message", required=True)
 
     async def on_submit(self, interaction: discord.Interaction):
-        if not os.path.exists("data.json"):
-            interaction.response.send_message("You need to set the webhook first with /webhook <url>")
+        config = json.load(open("config.json", "r+"))
+        if config["discord"]["logs_channel"] == "" or config["discord"]["accounts_channel"] == "":
+            interaction.response.send_message("You must set the Log and Accounts Channel first throught /set_channel", ephemeral=True)
             return
         
         # Switched into 2 diferent commands and removed unnecessary custom hex colour 

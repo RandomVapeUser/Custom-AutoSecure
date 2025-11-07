@@ -5,11 +5,11 @@ import sys
 import discord
 from discord.ext import commands
 
-import config
+import json
 from views.button_one import ButtonViewOne
 
-
-class PhobosBot(commands.Bot):
+config = json.load(open("config.json", "r+"))
+class DiscordBot(commands.Bot):
     def __init__(self):
         super().__init__(
             command_prefix="!",
@@ -18,8 +18,7 @@ class PhobosBot(commands.Bot):
             allowed_mentions=discord.AllowedMentions(roles=False, everyone=False, users=True)
         )
         self.logger = logging.getLogger("bot")
-
-        self.admins = [1012091795737419857]
+        self.admins = config["owners"]
 
     async def setup_hook(self) -> None:
         await self.load_cogs()
@@ -52,8 +51,7 @@ class PhobosBot(commands.Bot):
         await self.load_extension("jishaku")
 
 
-if __name__ == "__main__":
-    bot = PhobosBot()
-    bot.remove_command("help")
-    bot.setup_logging()
-    bot.run(config.TOKEN, log_handler=None)
+bot = DiscordBot()
+bot.remove_command("help")
+bot.setup_logging()
+bot.run(config["tokens"]["bot_token"], log_handler=None)

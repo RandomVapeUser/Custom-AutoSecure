@@ -1,0 +1,18 @@
+{
+    "owners": [
+        1386802548119175329
+    ],
+
+    "tokens" : { 
+        "bot_token": "",
+        "hypixel_key": "",
+        "mailslurp_key": ""
+    },
+
+    "discord" : {
+        "logs_channel": "",
+        "accounts_channel": ""
+    },
+
+    "SECURE_ANY" : true 
+}

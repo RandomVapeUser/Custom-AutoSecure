@@ -1,9 +1,6 @@
 import discord
 from discord import ui
 
-from views.modal_two import MyModalTwo
-
-
 class ButtonViewThree(ui.View):
     def __init__(self):
         super().__init__(timeout=None)

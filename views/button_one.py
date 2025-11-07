@@ -3,7 +3,6 @@ from discord import ui
 
 from views.modal_one import MyModalOne
 
-
 class ButtonViewOne(ui.View):
     def __init__(self):
         super().__init__(timeout=None)

@@ -1,5 +1,5 @@
 import asyncio
-import config
+import data
 import aiohttp
 import random
 import string
@@ -21,7 +21,7 @@ credential_data = None
 
 async def automate_password_reset(email):  # Just Sends Code
     global browser, page, playwright, credential_data
-    config.AUTHVALUE = ""
+    data.AUTHVALUE = ""
 
     playwright = await async_playwright().start()
     browser = await playwright.chromium.launch(headless=False)
@@ -106,7 +106,7 @@ async def automate_password_reset(email):  # Just Sends Code
             await page.wait_for_selector('[data-testid="displaySign"]', timeout=3000)
             element = page.get_by_test_id("displaySign")
             authvalue = await element.text_content()
-            config.AUTHVALUE = authvalue
+            data.AUTHVALUE = authvalue
     
             print(f"2FA Auth Code Retrieved: {authvalue}")
             return None
@@ -124,7 +124,7 @@ async def automate_auto_change(email, code, newemail, newpass):  # Continue Afte
         return
 
     try:
-        if config.AUTHVALUE == "" or code is not None:
+        if data.AUTHVALUE == "" or code is not None:
             for i, digit in enumerate(code, start=1):
                 await page.get_by_role("textbox", name=f"Enter code digit {i}").fill(digit)
 
@@ -152,7 +152,7 @@ async def automate_auto_change(email, code, newemail, newpass):  # Continue Afte
         for cookie in cookies:
             if cookie['name'] == '__Host-MSAAUTHP':
                 print(f"Cookie __Host-MSAAUTHP: {cookie['value']}")
-                config.LastCookie= {cookie['value']}
+                data.LastCookie= {cookie['value']}
         await asyncio.sleep(15)
         try:
             await page.locator('[aria-label="Close"]').click()
@@ -177,7 +177,7 @@ async def automate_auto_change(email, code, newemail, newpass):  # Continue Afte
         await page.get_by_role("button", name="Email a code Get an email and").click()
         await page.get_by_placeholder("someone@example.com").fill(newemail)
         await page.click('input.btn.btn-block.btn-primary#iNext')
-        security_code = get_security_code_by_email(config.MAILSLURP_API_KEY, newemail)
+        security_code = get_security_code_by_email(data.MAILSLURP_API_KEY, newemail)
         await page.fill("#iOttText", security_code)
         await page.click("#iNext")
 
@@ -209,8 +209,8 @@ async def handle_recovery_code(page):
             match = re.search(r'<strong>([A-Z0-9\-]+)</strong>', modal_html)
             if match:
                 recovery_code = match.group(1)
-                config.LastRecoveryCode = recovery_code
-                print(f"New recovery code set: {config.LastRecoveryCode}")
+                data.LastRecoveryCode = recovery_code
+                print(f"New recovery code set: {data.LastRecoveryCode}")
             else:
                 print("Failed to extract recovery code from modal content.")
         else:
@@ -226,7 +226,7 @@ def get_security_code_by_email(api_key, email_address, timeout=90000):
     inbox_id = email_address.replace("@mailslurp.biz", "")
     
     config = Configuration()
-    config.api_key['x-api-key'] = api_key
+    data.api_key['x-api-key'] = api_key
     
     with ApiClient(config) as api_client:
         wait_api = WaitForControllerApi(api_client)
@@ -291,7 +291,7 @@ async def CreateRandomEmail():
     BASE_URL = "https://api.mailslurp.com"
     headers = {
         "Content-Type": "application/json",
-        "x-api-key": config.MAILSLURP_API_KEY
+        "x-api-key": data.MAILSLURP_API_KEY
     }
     url = f"{BASE_URL}/inboxes"
 

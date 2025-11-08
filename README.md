@@ -35,10 +35,10 @@ AutoSecure is a **Discord bot for ethical cybersecurity training**. It simulates
 2. **Create a Bot:**
    Get a Discord bot token and enable all intents [here](https://discord.com/developers/applications).
 
-3. **Get API Keys (optional):**
+3. **Get API Keys:**
 
-   * [MailSlurp](https://www.mailslurp.com/) for AutoSecure features.
-   * [Hypixel](https://developer.hypixel.net/) for Minecraft stats.
+   * [MailSlurp](https://www.mailslurp.com/) for Aliases replacement.* 
+   * [Hypixel](https://developer.hypixel.net/) for Hypixel stats. (Optional)
 
 4. **Configure the Bot:**
    Edit `config.json` and add:

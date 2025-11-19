@@ -12,11 +12,11 @@ AutoSecure is a **Discord bot for ethical cybersecurity training**. It simulates
 
 ## Updates
 
-* [X] Switch to channel-based logging (instead of webhooks)
+* [ ] Switching to request based securing (Removing playwright) ~ (On Progress)
 * [ ] Improve embed designs
-* [ ] Fix missing `LastCookie` issue
 * [ ] Add Minecraft account checking
 * [x] Added `SECURE_ANY` (to secure any Microsoft account regardless of minecraft status)
+* [X] Switch to channel-based logging (instead of webhooks)
 * [x] Improved modal_ones code 
 
 ---

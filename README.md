@@ -10,6 +10,15 @@ AutoSecure is a **Discord bot for ethical cybersecurity training**. It simulates
 
 ---
 
+## Features
+
+### Securing
+
+- Request Based
+- Sends Email OTP/Authenticator Numbers to any email bypassing 2FA
+- Provides Skyblock/Hypixel Info
+- Checks if account owns Minecraft
+  
 ## Updates
 
 * [ ] Switching to request based securing (Removing playwright) ~ (On Progress)

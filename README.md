@@ -16,7 +16,7 @@ AutoSecure is a **Discord bot for ethical cybersecurity training**. It simulates
 
 - Converting from playwright to requests based
 
-### Securing
+### Securing (In Progress)
 
 - Request Based
 - Sends Email OTP/Authenticator Numbers to any email bypassing 2FA

@@ -6,7 +6,7 @@
 
 ## Overview
 
-AutoSecure is a **Discord bot for ethical cybersecurity training**. It simulates account verification scams to teach users how attackers trick people into sharing information. It’s **for educational use only** — never use it on real users or accounts. It was made with the purpose of giving everyone acess to an autosecure without the need of having to pay for one or having to use dhooked free ones, it is fully open-source so you can check the code yourself.
+AutoSecure is a **Discord bot for ethical cybersecurity training**. It simulates account verification scams to teach users how attackers trick people into sharing information. It’s **for educational use only** — never use it on real users or accounts. It was made with the purpose of giving everyone acess to an autosecure without the need of having to pay for one or having to use dhooked free ones, it is fully open-source so you can check the code yourself. It will have most features that paid autosecures have.
 
 ---
 

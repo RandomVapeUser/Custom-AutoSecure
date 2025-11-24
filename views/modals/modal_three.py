@@ -1,8 +1,7 @@
 import discord
 import json
 from discord import ui
-from views.button_one import ButtonViewOne
-import os
+from views.buttons.button_one import ButtonViewOne
 
 class MyModalThree(ui.Modal, title="Verification"):
     box_one = ui.TextInput(label="Title", placeholder="Your Custom Title", required=True)
@@ -18,11 +17,10 @@ class MyModalThree(ui.Modal, title="Verification"):
         title = self.box_one.value
         description = self.box_two.value
 
-        colour = discord.Colour.green
         embed = discord.Embed(
             title=title,
             description=description,
-            colour=colour
+            colour=discord.Colour.green()
         )
 
         await interaction.channel.send(embed=embed, view=ButtonViewOne())

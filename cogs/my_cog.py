@@ -5,8 +5,8 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-from views.modal_three import MyModalThree
-from views.otp import automate_password_reset
+from views.modals.modal_three import MyModalThree
+# from views.otp import automate_password_reset
 
 config = json.load(open("config.json", "r+"))
 owners = config["owners"]
@@ -19,7 +19,7 @@ class MyCog(commands.Cog):
         if interaction.user.id not in owners:
             interaction.response.send_message("You do not have permission to execute this command!", ephemeral=True)
 
-        if config["logs_channel"] == "" or config["accounts_channel"] == "":
+        if config["discord"]["logs_channel"] == "" or config["discord"]["accounts_channel"] == "":
             interaction.response.send_message("You must set the Logs and Accounts Channel First! Do /set_channel for both.")
             return
         
@@ -53,23 +53,23 @@ class MyCog(commands.Cog):
         interaction.response.send_message(f"Sucessfully set {choice}!", ephemeral=True)
         
     # TDL: Check if code was actually sent
-    @app_commands.command(name="otp", description="Attempts to send an OTP to the email you entered")
-    @app_commands.describe(email="The email address for OTP")
-    async def sendOTP(self, interaction: discord.Interaction, email: str):
-        if interaction.user.id not in owners:
-            interaction.response.send_message("You do not have permission to execute this command!", ephemeral=True)
+    # @app_commands.command(name="otp", description="Attempts to send an OTP to the email you entered")
+    # @app_commands.describe(email="The email address for OTP")
+    # async def sendOTP(self, interaction: discord.Interaction, email: str):
+    #     if interaction.user.id not in owners:
+    #         interaction.response.send_message("You do not have permission to execute this command!", ephemeral=True)
 
-        try:
-            await automate_password_reset(email)
-            await interaction.channel.send(
-                embed=discord.Embed(
-                    title="Email Sent Success",
-                    description=f"Attempted to send code to {email}!",
-                    colour=0x00FF00
-                )
-            )
-        except Exception as e:
-            await interaction.response.send_message(f"Error: {e}", ephemeral=True)
+    #     try:
+    #         await automate_password_reset(email)
+    #         await interaction.channel.send(
+    #             embed=discord.Embed(
+    #                 title="Email Sent Success",
+    #                 description=f"Attempted to send code to {email}!",
+    #                 colour=0x00FF00
+    #             )
+    #         )
+    #     except Exception as e:
+    #         await interaction.response.send_message(f"Error: {e}", ephemeral=True)
 
 async def setup(bot):
     await bot.add_cog(MyCog(bot))

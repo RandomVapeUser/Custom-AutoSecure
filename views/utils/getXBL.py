@@ -11,7 +11,10 @@ def getXBL(mssauth: str) -> dict:
         allow_redirects = False,
     )
     
-    location = data.headers["Location"]
+    location = data.headers.get('Location')
+    if not location:
+        return None
+    
     acessTokenRedirect = requests.get(
         url = location,
         headers = {
@@ -20,16 +23,25 @@ def getXBL(mssauth: str) -> dict:
         allow_redirects = False
     )
 
-    location = acessTokenRedirect.headers["Location"]
+    location = acessTokenRedirect.headers.get('Location')
+    if not location:
+        return None
+    
     accessTokenRedirect = requests.get(
         url = location,
         allow_redirects = False
     )
 
     # https://www.minecraft.net/en-us/login#state=login&accessToken=<token>
-    location = accessTokenRedirect.headers["Location"]
-    token = re.search(r'accessToken=([^&#]+)', location).group(1)
-    accessToken = token+ "=" * ((4 - len(token.group(1)) % 4) % 4)
+    location = accessTokenRedirect.headers.get('Location')
+    if not location:
+        return None
+    
+    token = re.search(r'accessToken=([^&#]+)', location)
+    if not token:
+        return None
+    
+    accessToken = token.group(1) + "=" * ((4 - len(token.group(1)) % 4) % 4)
 
     decoded_data = base64.b64decode(accessToken).decode('utf-8')
     json_data = json.loads(decoded_data)

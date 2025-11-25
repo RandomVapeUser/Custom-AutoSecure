@@ -17,7 +17,5 @@ def getMethod(ssid: str):
                     return "Gamepass"
                 elif (item["source"] == "PURCHASE" or item["source"] == "MC_PURCHASE"):
                     return "Purchased"
-                else:
-                    return "Failed to get!"
                 
-    return "No License"
+    return None

@@ -47,7 +47,7 @@ def getMSAAUTH(email: str, flowToken: str = None, code: str= None):
             data={
                 "login": email,
                 "loginfmt": email,
-                "SentProofIDE" : randomId,
+                "SentProofIDE" : flowToken,
                 "otc": code,
                 "type": "27",
                 "PPFT": data["ppft"]

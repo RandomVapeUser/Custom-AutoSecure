@@ -5,6 +5,7 @@ from views.utils.getMethod import getMethod
 from views.utils.getCapes import getCapes
 from views.utils.getSSID import getSSID
 from views.utils.getXBL import getXBL
+from views.utils.getXBL import getT
 
 def secure(msaauth: str):
 
@@ -88,7 +89,7 @@ def secure(msaauth: str):
         print("[x] - Failed to get XBL")
         accountInfo["oldName"] = "No Minecraft"
 
-    
+    T = getT()
 
     
 

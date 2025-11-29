@@ -4,23 +4,13 @@ import requests
 import random
 import string
 
-# Generate random SentProofIDE
-def generateId(length = 8):
-    charset = "abcdefghijklmnopqrstuvwxyz0123456789"
-    val = random.choice(string.ascii_lowercase)
-
-    for _ in range(1, length):
-        ret_val += random.choice(charset)
-
-    return val
-
 # Gets __Host-MSAAUTH
-def getMSAAUTH(email: str, flowToken: str = None, code: str= None):
+def getMSAAUTH(email: str, flowToken: str, code: str= None):
     data = getLiveData() # [UrlPost, ppft, cookies]
     
     if flowToken is not None:
         loginData = requests.post(
-            url=data["urlPost"],
+            url = data["urlPost"],
             headers={
                 "Content-Type": "application/x-www-form-urlencoded",
             },
@@ -36,10 +26,15 @@ def getMSAAUTH(email: str, flowToken: str = None, code: str= None):
         )
 
     elif code:
-    
-        randomId = generateId(33)
+        
+        cookies = ""
+        set_cookie_headers = response.headers.get('set-cookie')
+        if set_cookie_headers:
+            for cookie_header in set_cookie_headers.split(','):
+                cookies += cookie_header.split(";")[0] + "; "
+
         loginData = requests.post(
-            url=data["urlPost"],
+            url = data["urlPost"],
             headers={
                 "Content-Type": "application/x-www-form-urlencoded",
                 "Cookie": data["cookies"]
@@ -70,7 +65,7 @@ def getMSAAUTH(email: str, flowToken: str = None, code: str= None):
         allow_redirects = False
     )
 
-    if 200 <= polish.status_code < 400:
+    if 200 <= loginData.status_code < 400:
         return MSAAUTH
     else:
         return None

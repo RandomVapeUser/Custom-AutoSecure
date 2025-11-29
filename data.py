@@ -1,5 +1,4 @@
 # Do NOT edit/add/save anything here leave it as is 
-LastUsedEmail=""
+Email=""
 LastUserName=""
 LastRecoveryCode=""
-AUTHVALUE=""

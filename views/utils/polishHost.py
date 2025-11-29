@@ -11,6 +11,7 @@ def polishHost(host: str, amsc: str) -> str:
     )
 
     if "locked" in data.text:
+        print(f"\n\n\n\n{data.text}")
         print("[X] - Account is locked")
         return "Locked"
     
@@ -24,4 +25,3 @@ def polishHost(host: str, amsc: str) -> str:
     else:
         print("[-] - Failed to get polish MSAAUTH. Returning MSAAUTH")
         return host
-    return

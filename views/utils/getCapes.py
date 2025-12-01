@@ -8,8 +8,7 @@ def getCapes(ssid: str) :
             "Authorization": f"Bearer {ssid}"
         }
     )
-
-    print(response.json())
+    
     if "capes" in response.json():
         return response.json()["capes"]
     else:

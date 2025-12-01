@@ -34,7 +34,6 @@ def getXBL(mssauth: str) -> dict:
         print(data.headers)
         return None
     
-    print("Location 1")
     acessTokenRedirect = requests.get(
         url = location,
         headers = {
@@ -48,7 +47,6 @@ def getXBL(mssauth: str) -> dict:
         print(acessTokenRedirect.headers)
         return None
     
-    print("Location 2")
     accessTokenRedirect = requests.get(
         url = location,
         allow_redirects = False
@@ -60,12 +58,10 @@ def getXBL(mssauth: str) -> dict:
         print(acessTokenRedirect.headers)
         return None
     
-    print("Location 3")
     token = re.search(r'accessToken=([^&#]+)', location)
     if not token:
         return None
     
-    print("Token")
     accessToken = token.group(1) + "=" * ((4 - len(token.group(1)) % 4) % 4)
 
     decoded_data = base64.b64decode(accessToken).decode('utf-8')

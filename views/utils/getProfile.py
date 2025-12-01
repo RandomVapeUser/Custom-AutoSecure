@@ -9,7 +9,7 @@ def getProfile(ssid: str):
         }
     )
 
-    if "data" in response.json():
-        return response.json()["data"]["name"]
+    if "name" in response.json():
+        return response.json()["name"]
     else:
         return None

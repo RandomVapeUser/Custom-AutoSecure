@@ -1,6 +1,6 @@
 # AutoSecure
 
-**Contact:** `salomao31_termedv3 / ```https://discord.gg/HEUTEjsprE``` `
+**Contact:** `salomao31_termedv3 / https://discord.gg/HEUTEjsprE`
 
 ---
 

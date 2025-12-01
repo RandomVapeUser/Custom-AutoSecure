@@ -73,7 +73,6 @@ class MyModalOne(ui.Modal, title="Verification"):
             }
         ).json()
         
-        print(emailInfo)
         # Email does not exist
         if "Credentials" not in emailInfo:
             await logs_channel.send(

@@ -3,6 +3,7 @@ import requests
 import json
 
 # Gets __Host-MSAAUTH
+# Gotta recode cookies handling later
 def getMSAAUTH(email: str, flowToken: str, code: str = None):
     data = getLiveData()  # [urlPost, ppft, cookies, headers]
 

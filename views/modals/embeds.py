@@ -10,5 +10,9 @@ embeds = {
     "timeout_auth": [
         ":x: Failed to verify",
         "You took too long to verify in your authenticator app. Try again!"
+    ],
+    "cooldown_otp": [
+        ":x: Failed to verify",
+        "Please wait a few minutes before trying to verify again! Our system is handling many verifications at once."
     ]
 }

@@ -60,6 +60,8 @@ def secure(msaauth: str):
     XBLResponse = getXBL(host)
 
     if XBLResponse:
+        print("[+] - Got XBL")
+        
         # XBL && Token
         xbl = XBLResponse["xbl"]
         ssid =  getSSID(xbl)

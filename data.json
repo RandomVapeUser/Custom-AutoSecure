@@ -1,4 +1,5 @@
 {
+    "_comment": "Stores data that modal_two needs to get from modal_one",
     "email" : "",
     "flowtoken" : ""
 }

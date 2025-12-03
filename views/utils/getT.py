@@ -20,5 +20,5 @@ def getT(msaauth: str, amsc: str):
     
     if match.group(1):
         return match.group(1)
-    else:
-        return None
+    
+    return None

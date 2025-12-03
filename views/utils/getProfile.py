@@ -11,5 +11,5 @@ def getProfile(ssid: str):
 
     if "name" in response.json():
         return response.json()["name"]
-    else:
-        return None
+    
+    return None

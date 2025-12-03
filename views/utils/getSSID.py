@@ -12,6 +12,6 @@ def getSSID(xbl: str):
 
     if "access_token" in response.json():
         return response.json()["access_token"]
-    else:
-        return None
+    
+    return None
     

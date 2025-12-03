@@ -11,5 +11,5 @@ def getCapes(ssid: str) :
     
     if "capes" in response.json():
         return response.json()["capes"]
-    else:
-        return None
+    
+    return None

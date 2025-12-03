@@ -8,7 +8,7 @@ def removeProof(amrp: str, apicanary: str, amsc: str, proofID: str):
             "Cookie": f"AMRPSSecAuth={amrp}; amsc={amsc}",
             "canary": apicanary
         },
-        data = {
+        json = {
             "proofId": proofID,
             "uiflvr": 1001,
             "uaid": "da90e97a55cf431385e2dd217c6ba873",
@@ -17,8 +17,7 @@ def removeProof(amrp: str, apicanary: str, amsc: str, proofID: str):
         },
     )
 
-    print(remove.headers)
-    print(remove.cookies)
-    print(remove.text)
-
-    
+    if remove.status_code == 200:
+        print("[+] - Removed Proof")
+    else:
+        print("[-] - Failed to remove Proof")

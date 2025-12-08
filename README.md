@@ -24,9 +24,9 @@ It was made with the purpose of giving everyone acess to an autosecure without t
   
 ## Updates
 
-* [ ] Switching to request based securing (Removing playwright) ~ (On Progress)
 * [ ] Improve embed designs
-* [ ] Add Minecraft account checking
+* [X] Add Minecraft account checking
+* [X] Switching to request based securing (Removing playwright)
 * [X] Switch to channel-based logging (instead of webhooks)
 * [x] Improved modal_one 
 

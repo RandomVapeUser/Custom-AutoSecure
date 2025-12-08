@@ -11,20 +11,23 @@ AutoSecure is a **Discord bot for ethical cybersecurity training**. It simulates
 It was made with the purpose of giving everyone acess to an autosecure without the need of having to pay for one or having to use dhooked free ones, it is fully open-source so you can check the code yourself. It will have most features that paid autosecures have.
 
 ---
-### Status
-
-- Converting from playwright to requests based
 
 ### Securing (In Progress)
 
 - Request Based
 - Sends Email OTP/Authenticator Numbers to any email bypassing 2FA
 - Provides Skyblock/Hypixel Info
+- Automaticly secures accounts
 - Checks Minecraft (Owns MC, Capes)
   
 ## Updates
 
-* [ ] Improve embed designs
+* [ ] Change main alias
+* [ ] Remove Zyger Explot 
+* [ ] Get Account Info
+* [+] Change Security Email
+* [+] Change Password
+* [~] Improve embed designs
 * [X] Add Minecraft account checking
 * [X] Switching to request based securing (Removing playwright)
 * [X] Switch to channel-based logging (instead of webhooks)
@@ -34,7 +37,7 @@ It was made with the purpose of giving everyone acess to an autosecure without t
 
 ## Disclaimer
 
-**This tool is for learning, testing, and awareness training only.** Using it without consent or on real systems is illegal. The author is not responsible for misuse.
+**This tool is for learning, testing, and awareness training only.** If you encounter any issue dm me / make a [issue](https://github.com/RandomVapeUser/Custom-AutoSecure/issues). The author is not responsible for misuse. 
 
 ---
 

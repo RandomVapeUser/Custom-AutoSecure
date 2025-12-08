@@ -64,8 +64,9 @@ def recoveryCodeSecure(email: str, recoveryCode: str, new_email: str, new_passwo
             
             print("[~] - Getting OTP code...")
             code = getEmailCode(new_email, mailslurp_key)
+            print(f"Got Code - {code}")
 
-            requests.post(
+            verifyCode = requests.post(
                 url = "https://account.live.com/API/Proofs/VerifyCode",
                 headers = {
                     "Content-type": "application/json; charset=utf-8",
@@ -85,6 +86,8 @@ def recoveryCodeSecure(email: str, recoveryCode: str, new_email: str, new_passwo
                 }
             )
             
+            print(f"Verify Code: {verifyCode.json()}")
+
             finishSecure = requests.post(
                 url = "https://account.live.com/API/Recovery/RecoverUser",
                 headers = {
@@ -96,7 +99,7 @@ def recoveryCodeSecure(email: str, recoveryCode: str, new_email: str, new_passwo
                     "Cookie": f"amsc={amsc}"
                 },
                 json = {
-                    "email": new_email,
+                    "contactEmail": new_email,
                     "contactEpid": "",
                     "password": new_password,
                     "passwordExpiryEnabled": 0,
@@ -106,8 +109,9 @@ def recoveryCodeSecure(email: str, recoveryCode: str, new_email: str, new_passwo
                 }
             ).json()
 
+            print(f"FinishSecure - {finishSecure}")
             if "recoveryCode" in finishSecure:
-                return finishSecure["recoveryCode"]
+                return [finishSecure["recoveryCode"], new_password]
             
             return None
 

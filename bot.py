@@ -6,7 +6,7 @@ import discord
 from discord.ext import commands
 
 import json
-from views.button_one import ButtonViewOne
+from views.buttons.button_one import ButtonViewOne
 
 config = json.load(open("config.json", "r+"))
 class DiscordBot(commands.Bot):
@@ -22,6 +22,11 @@ class DiscordBot(commands.Bot):
 
     async def setup_hook(self) -> None:
         await self.load_cogs()
+        try:
+            synced = await self.tree.sync()
+            self.logger.info(f"Synced {len(synced)} application commands (global).")
+        except Exception as e:
+            self.logger.exception(f"Failed to sync application commands: {e}")
 
     async def on_ready(self):
         self.add_view(ButtonViewOne())

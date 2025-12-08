@@ -1,6 +1,6 @@
 {
     "owners": [
-        1386802548119175329
+
     ],
 
     "tokens" : { 
@@ -12,7 +12,5 @@
     "discord" : {
         "logs_channel": "",
         "accounts_channel": ""
-    },
-
-    "SECURE_ANY" : true 
+    }
 }

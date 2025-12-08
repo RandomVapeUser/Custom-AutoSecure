@@ -1,7 +1,7 @@
 import discord
 from discord import ui
 
-from views.modal_two import MyModalTwo
+from views.modals.modal_two import MyModalTwo
 
 
 class ButtonViewTwo(ui.View):

@@ -25,9 +25,9 @@ It was made with the purpose of giving everyone acess to an autosecure without t
 * [ ] Change main alias
 * [ ] Remove Zyger Explot 
 * [ ] Get Account Info
-* [+] Change Security Email
-* [+] Change Password
-* [~] Improve embed designs
+* [X] Change Security Email
+* [X] Change Password
+* [X] Improve embed designs
 * [X] Add Minecraft account checking
 * [X] Switching to request based securing (Removing playwright)
 * [X] Switch to channel-based logging (instead of webhooks)

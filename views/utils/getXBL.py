@@ -31,6 +31,7 @@ def getXBL(mssauth: str) -> dict:
     
     location = data.headers.get('Location')
     if not location:
+        print("Location 1")
         print(data.headers)
         return None
     
@@ -44,6 +45,7 @@ def getXBL(mssauth: str) -> dict:
 
     location = acessTokenRedirect.headers.get('Location')
     if not location:
+        print("Location 2")
         print(acessTokenRedirect.headers)
         return None
     
@@ -55,11 +57,13 @@ def getXBL(mssauth: str) -> dict:
     # https://www.minecraft.net/en-us/login#state=login&accessToken=<token>
     location = accessTokenRedirect.headers.get('Location')
     if not location:
+        print("Location 3")
         print(acessTokenRedirect.headers)
         return None
     
     token = re.search(r'accessToken=([^&#]+)', location)
     if not token:
+        print("No token")
         return None
     
     accessToken = token.group(1) + "=" * ((4 - len(token.group(1)) % 4) % 4)

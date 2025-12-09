@@ -14,21 +14,26 @@ It was made with the purpose of giving everyone acess to an autosecure without t
 ### Status
 
 - Converting from playwright to requests based
-
-### Securing (In Progress)
-
-- Request Based
-- Sends Email OTP/Authenticator Numbers to any email bypassing 2FA
-- Provides Skyblock/Hypixel Info
-- Checks Minecraft (Owns MC, Capes)
   
-## Updates
+## Features
 
-* [ ] Switching to request based securing (Removing playwright) ~ (On Progress)
-* [ ] Improve embed designs
-* [ ] Add Minecraft account checking
-* [X] Switch to channel-based logging (instead of webhooks)
-* [x] Improved modal_one 
+* [ ] - Get Owners Info (Name, Country...)
+* [ ] - Signs out of all locations
+* [ ] - Change Microsoft info (country, dob, name, language)
+* [ ] - Grabs all purchases
+* [ ] - Grabs Xbox gamertag
+* [ ] - Grabs subscriptions
+* [ ] - Change primary alias
+
+* [X] - Bypasses email 2FA verification
+* [X] - Disables 2FA
+* [X] - Improved embeds 
+* [X] - Creates a recovery code
+* [X] - Changes security email
+* [X] - Changes password
+* [X] - Removes Windows Hello keys (Zyger exploit)
+* [X] - Checks Minecraft (Owns MC, username/no name set, purchase method, capes, SSID)
+* [X] - Removes Windows Hello keys (Zyger exploit)
 
 ---
 

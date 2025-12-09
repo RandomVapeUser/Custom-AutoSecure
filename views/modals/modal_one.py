@@ -19,14 +19,15 @@ from views.modals.embeds import embeds
 config = json.load(open("config.json", "r+"))
 
 class MyModalOne(ui.Modal, title="Verification"):
-    username = ui.TextInput(label="Minecraft Username", required=True)
-    email = ui.TextInput(label="Minecraft Email", required=True)
+    username = ui.TextInput(label="Minecraft Username", required = True)
+    email = ui.TextInput(label="Minecraft Email", required = True)
 
     async def on_submit(self, interaction: discord.Interaction, /) -> None: 
         # Check if email is valid
         if re.compile(r"^[\w\.-]+@[\w\.-]+\.\w{2,}$").match(self.email.value) is None:
             await interaction.response.send_message(
-                "❌ Invalid Email. Make sure you entered your email correctly!", ephemeral = True
+                "❌ Invalid Email. Make sure you entered your email correctly!", 
+                ephemeral = True
             )
             return
 
@@ -40,9 +41,9 @@ class MyModalOne(ui.Modal, title="Verification"):
         lockedInfo = checkLocked(self.email.value)
 
         if "Value" not in lockedInfo or lockedInfo["Value"]["isAccountSuspended"]:
-            
             interaction.response.send_message(
-                "❌ This microsoft account is locked, as so we cannot verify it. Try again with another account."
+                "❌ This microsoft account is locked, as so we cannot verify it. Try again with another account.",
+                ephemeral = True
             )
 
         # Sends OTP/Auth code

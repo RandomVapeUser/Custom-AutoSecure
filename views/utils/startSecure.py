@@ -1,5 +1,5 @@
 from views.utils.getMSAAUTH import getMSAAUTH
-from views.utils.secure import secure
+from views.utils.securing.secure import secure
 from discord import Embed
 import json
 

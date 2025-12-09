@@ -1,5 +1,5 @@
 
-from views.utils.getEmailCode import getEmailCode
+from views.utils.securing.getEmailCode import getEmailCode
 from urllib.parse import unquote
 import requests
 import codecs

@@ -8,6 +8,7 @@ def getAccountInfo(amrp: str, amsc: str):
         "https://account.microsoft.com/home/api/profile/personal-info",
         headers = {
             "Cookie": f"AMRPSSecAuth={amrp}; amsc={amsc}",
+            "canary": "no"
         }
     )
     print(response.status_code)

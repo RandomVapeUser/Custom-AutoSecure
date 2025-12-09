@@ -13,7 +13,7 @@ It was made with the purpose of giving everyone acess to an autosecure without t
 ---
 ### Status
 
-- Converting from playwright to requests based
+- Adding Features
   
 ## Features
 

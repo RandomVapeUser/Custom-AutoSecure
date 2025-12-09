@@ -27,8 +27,8 @@ It was made with the purpose of giving everyone acess to an autosecure without t
 * [ ] - Grabs Xbox gamertag
 * [ ] - Grabs subscriptions
 * [ ] - Change primary alias
-
 * [X] - Bypasses email 2FA verification
+* [X] - Checks for if an account is locked
 * [X] - Disables 2FA
 * [X] - Improved embeds 
 * [X] - Creates a recovery code

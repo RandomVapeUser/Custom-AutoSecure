@@ -31,7 +31,7 @@ It was made with the purpose of giving everyone acess to an autosecure without t
 * [X] - Checks if an account is locked
 * [X] - Disables 2FA
 * [X] - Improved embeds 
-* [X] - Creates a recovery code
+* [X] - Gets recovery code
 * [X] - Changes security email
 * [X] - Changes password
 * [X] - Removes Windows Hello keys (Zyger exploit)

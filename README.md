@@ -1,6 +1,6 @@
 # AutoSecure
 
-**Contact:** `salomao31_termedv3`
+**Contact:** `salomao31_termedv3` / [`discord server`](https://discord.gg/6mzg5uXJPM)
 
 **Big thanks to these contributors**:
 - `Enrique (22robin)`
@@ -29,6 +29,7 @@ It was made with the purpose of giving everyone acess to an autosecure without t
 * [ ] - Grabs Xbox gamertag
 * [ ] - Grabs subscriptions
 * [ ] - Change primary alias
+* [ ] - Use a local SMTP server to replace mailslurp
 * [X] - Bypasses email 2FA verification
 * [X] - Checks if an account is locked
 * [X] - Disables 2FA

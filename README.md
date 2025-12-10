@@ -1,6 +1,6 @@
 # AutoSecure
 
-**Contact:** `salomao31_termedv3`
+**Contact:** `salomao31_termedv3` / [`discord`](https://discord.gg/6mzg5uXJPM)
 
 **Big thanks to these contributors**:
 - `Enrique (22robin)`

@@ -4,6 +4,7 @@
 
 **Big thanks to these contributors**:
 - `Enrique (22robin)`
+- `Chickens`
   
 ---
 
